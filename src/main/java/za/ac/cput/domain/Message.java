@@ -57,7 +57,7 @@ public class Message {
         return subject;
     }
 
-    public String getMessage() {
+    public String getMessageContent() {
         return messageContent;
     }
 
@@ -130,7 +130,7 @@ public class Message {
             return this;
         }
 
-        public Builder setMessage(String messageContent) {
+        public Builder setMessageContent(String messageContent) {
             this.messageContent = messageContent;
             return this;
         }
