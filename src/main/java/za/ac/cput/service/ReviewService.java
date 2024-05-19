@@ -27,7 +27,6 @@ public class ReviewService implements IReviewService{
     @Override
     public Review read(Long id) {
         return this.repository.findByReviewId(id);
-        //.orElse(null)
     }
 
     @Override
@@ -36,7 +35,7 @@ public class ReviewService implements IReviewService{
     }
 
     @Override
-    public void delete(Long id) {
-
+    public void delete(Long reviewId) {
+        repository.deleteById(reviewId);
     }
 }

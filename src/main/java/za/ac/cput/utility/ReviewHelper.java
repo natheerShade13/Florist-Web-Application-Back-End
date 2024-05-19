@@ -10,7 +10,6 @@ public class ReviewHelper {
         }
         return false;
     }
-
     public static long generateUniqueID() {
         return UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
 

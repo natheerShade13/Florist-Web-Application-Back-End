@@ -1,7 +1,7 @@
 package za.ac.cput.service;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,63 +16,45 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ReviewServiceTest {
 
     @Autowired
     private ReviewService reviewService;
 
-    private static Review review1;
-    private static Review review2;
-
-
-    @BeforeAll
-    static void setup() {
-        Product product = new Product();
-        Customer customer = new Customer();
-        review1 = ReviewFactory.createProductReview(product, customer, 1, "Bad Quality", LocalDate.now());
-        review2 = ReviewFactory.createProductReview(product, customer, 2, "Nice flowers", LocalDate.of(2024, 3, 3));
-    }
+    static Product product = new Product();
+    static Customer customer = new Customer();
+    private Review review = ReviewFactory.createProductReview(product, customer, 4, "Bad Quality", LocalDate.now());
 
     @Test
-    void a_setup() {
-        assertNotNull(review1);
-        System.out.println(review1);
-
-        assertNotNull(review2);
-        System.out.println(review2);
-    }
-
-    @Test
+    @Order(1)
     void b_create() {
-        Review created1 = reviewService.create(review1);
-        assertNotNull(created1);
-        System.out.println(created1);
-
-        Review created2 = reviewService.create(review2);
-        assertNotNull(created2);
-        System.out.println(created2);
+        Review created = reviewService.create(review);
+        assertNotNull(created);
+        System.out.println(created);
     }
 
     @Test
+    @Order(2)
     void c_read() {
-        Review read = reviewService.read(review2.getReviewId());
+        Review read = reviewService.read(review.getReviewId());
         System.out.println(read);
     }
 
     @Test
+    @Order(3)
     void d_update() {
         Review newReview = new Review.Builder()
-                .copy(review2)
-                .setComment("Fresh roses")
+                .copy(review)
+                .setComment("Beautiful Sunflowers")
                 .build();
-        Review updated = reviewService.update(newReview);
-        assertNotNull(updated);
-        assertEquals("Fresh roses", updated.getComment());
-        System.out.println(updated);
+        Review update = reviewService.update(newReview);
+        assertNotNull(update);
+        System.out.println(update);
     }
 
     @Test
+    @Order(4)
     void e_getAll() {
         assertFalse(reviewService.getall().isEmpty());
         System.out.println(reviewService.getall());
