@@ -25,7 +25,7 @@ public class Customer {
     }
 
     public Customer(Builder builder) {
-        this.customerId = builder.build().customerId;
+        this.customerId = builder.customerId;
         this.firstName = builder.firstName;
         this.lastname = builder.lastname;
         this.contact = builder.contact;
