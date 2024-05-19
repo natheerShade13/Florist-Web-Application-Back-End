@@ -61,7 +61,8 @@ class ReviewServiceTest {
     }
 
     @Test
-    void d_update() {
+    void d_update() { // This is creating a 3rd row in the table instedd of updating the 2nd,
+                      // could be because of foreign keys.
         Review newReview = new Review.Builder()
                 .copy(review2)
                 .setComment("Fresh roses")
