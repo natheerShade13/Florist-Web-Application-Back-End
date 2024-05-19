@@ -25,7 +25,7 @@ public class Product {
     private byte[] imageUrl;
 
 
-    protected Product() {
+    public Product() {
     }
 
     public String getProductId() {
