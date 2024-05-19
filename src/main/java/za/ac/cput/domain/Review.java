@@ -85,7 +85,7 @@ public class Review {
                 "Customer ID: " + customerId + '\n' +
                 "Rating: " + rating + '\n' +
                 "Comment: " + comment + '\n' +
-                "Review Date: " + reviewDate;
+                "Review Date: " + reviewDate+ '\n';
     }
 
     // Builder class
