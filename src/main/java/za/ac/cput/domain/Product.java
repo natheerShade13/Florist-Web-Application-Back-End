@@ -3,6 +3,7 @@ package za.ac.cput.domain;
 import jakarta.persistence.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,11 +21,12 @@ public class Product {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Lob
     @Column(name = "image_url")
     private String imageUrl;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<SupplierProduct> supplierProducts;
 
-
+    //This should be protected , @Mabotse Something is wrong with your review class , you're building a review with an empty product and customer
     public Product() {
     }
 

@@ -1,6 +1,8 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,8 +26,8 @@ public class Supplier {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    // @OneToOne
-    // private Contact contact;
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
+    private List<SupplierProduct> supplierProducts;
 
     protected Supplier() {
     }
