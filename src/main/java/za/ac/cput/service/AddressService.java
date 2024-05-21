@@ -1,5 +1,6 @@
 package za.ac.cput.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Address;
 import za.ac.cput.repository.IAddressRepository;
@@ -7,6 +8,7 @@ import za.ac.cput.repository.IAddressRepository;
 import java.util.List;
 @Service
 public class AddressService implements IAddressService {
+    @Autowired
     private IAddressRepository repository;
 
     @Override
@@ -16,7 +18,7 @@ public class AddressService implements IAddressService {
 
     @Override
     public Address read(Long aLong) {
-        return repository.findID(aLong);
+        return repository.findById(aLong).orElse(null);
     }
 
     @Override

@@ -102,6 +102,14 @@ public class Customer {
             return this;
         }
 
+        public Builder copy(Customer customer) {
+            this.customerId = customerId;
+            this.firstName = firstName;
+            this.lastname = lastname;
+            this.contact = contact;
+            return this;
+        }
+
         public Customer build() {
             return new Customer(this);
         }

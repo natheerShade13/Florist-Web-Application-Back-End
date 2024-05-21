@@ -1,11 +1,14 @@
 package za.ac.cput.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Customer;
 import za.ac.cput.repository.ICustomerRepository;
 
 import java.util.List;
-
+@Service
 public class CustomerService implements ICustomerService{
+    @Autowired
     private ICustomerRepository repository;
 
     @Override
@@ -15,7 +18,7 @@ public class CustomerService implements ICustomerService{
 
     @Override
     public Customer read(Long aLong) {
-        return repository.findID(aLong);
+        return repository.findById(aLong).orElse(null);
     }
 
     @Override

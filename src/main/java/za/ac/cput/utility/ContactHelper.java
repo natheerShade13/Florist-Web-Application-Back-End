@@ -4,7 +4,6 @@ import za.ac.cput.domain.Address;
 
 import java.util.regex.Pattern;
 
-import static jdk.internal.joptsimple.internal.Strings.isNullOrEmpty;
 
 public class ContactHelper {
     public static boolean isNumbersTenDigits(String n){
