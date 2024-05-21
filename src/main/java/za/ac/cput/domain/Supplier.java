@@ -1,6 +1,8 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -8,9 +10,9 @@ import java.util.Objects;
 public class Supplier {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "supplier_id")
-    private Long supplierID;
+    private String supplierID;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -24,8 +26,8 @@ public class Supplier {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    // @OneToOne
-    // private Contact contact;
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
+    private List<SupplierProduct> supplierProducts;
 
     protected Supplier() {
     }
@@ -39,7 +41,7 @@ public class Supplier {
     }
 
     // Getters
-    public Long getSupplierID() {
+    public String getSupplierID() {
         return supplierID;
     }
 
@@ -60,7 +62,7 @@ public class Supplier {
     }
 
     // Setters
-    public void setSupplierID(Long supplierID) {
+    public void setSupplierID(String supplierID) {
         this.supplierID = supplierID;
     }
 
@@ -105,13 +107,13 @@ public class Supplier {
     }
 
     public static class Builder {
-        private Long supplierID;
+        private String supplierID;
         private String firstName;
         private String lastName;
         private String email;
         private String phoneNumber;
 
-        public Builder setSupplierID(Long supplierID) {
+        public Builder setSupplierID(String supplierID) {
             this.supplierID = supplierID;
             return this;
         }

@@ -3,6 +3,7 @@ package za.ac.cput.domain;
 import jakarta.persistence.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,11 +21,12 @@ public class Product {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Lob
     @Column(name = "image_url")
-    private byte[] imageUrl;
+    private String imageUrl;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<SupplierProduct> supplierProducts;
 
-
+    //This should be protected , @Mabotse Something is wrong with your review class , you're building a review with an empty product and customer
     public Product() {
     }
 
@@ -37,14 +39,12 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Double.compare(product.price, price) == 0 && Objects.equals(productId, product.productId) && Objects.equals(productName, product.productName) && Objects.equals(productDescription, product.productDescription) && Arrays.equals(imageUrl, product.imageUrl);
+        return Double.compare(price, product.price) == 0 && Objects.equals(productId, product.productId) && Objects.equals(productName, product.productName) && Objects.equals(productDescription, product.productDescription) && Objects.equals(imageUrl, product.imageUrl);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(productId, productName, productDescription, price);
-        result = 31 * result + Arrays.hashCode(imageUrl);
-        return result;
+        return Objects.hash(productId, productName, productDescription, price, imageUrl);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Product {
                 ", productName='" + productName + '\'' +
                 ", productDescription='" + productDescription + '\'' +
                 ", price=" + price +
-                ", imageUrl=" + Arrays.toString(imageUrl) +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 
@@ -71,8 +71,7 @@ public class Product {
         private String productName;
         private String productDescription;
         private double price;
-        @Lob
-        private byte[] imageUrl;
+        private String imageUrl;
 
         public Builder setProductId(String productId) {
             this.productId = productId;
@@ -94,7 +93,7 @@ public class Product {
             return this;
         }
 
-        public Builder setImageUrl(byte[] imageUrl) {
+        public Builder setImageUrl(String imageUrl) {
             this.imageUrl = imageUrl;
             return this;
         }
