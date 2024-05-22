@@ -18,7 +18,7 @@ public class MessageFactory {
         return new Message.Builder()
                 .setMessageId(messageId)
                 .setSubject(subject)
-                .setMessage(messageContent)
+                .setMessageContent(messageContent)
                 .setIsRead(isRead)
                 .setDateSent(dateSent)
                 .setCustomer(customer)
@@ -27,7 +27,7 @@ public class MessageFactory {
     }
 
     /*
-    public static Message buildMessage(String subject, String messageContent, boolean isRead, Date dateSent, Customer customer, Employee employee) {
+    public static Message buildMessage(String subject, String messageContent, boolean isRead, Date dateSent, Customer, Employee) {
         if (Helper.isNullOrEmpty(subject) || Helper.isNullOrEmpty(messageContent) || dateSent == null
                 || customer == null || employee == null) {
             return null;
@@ -38,7 +38,7 @@ public class MessageFactory {
         return new Message.Builder()
                 .setMessageId(messageId)
                 .setSubject(subject)
-                .setMessage(messageContent)
+                .setMessageContent(messageContent)
                 .setIsRead(isRead)
                 .setDateSent(dateSent)
                 .setCustomer(customer)
