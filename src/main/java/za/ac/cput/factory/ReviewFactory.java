@@ -12,6 +12,7 @@ public class ReviewFactory {
         if (product == null || customer == null || rating < 1 || rating > 5 || ReviewHelper.isNullOrEmpty(comment) || reviewDate == null) {
             return null;
         }
+
         long reviewId = ReviewHelper.generateUniqueID();
         return new Review.Builder()
                 .setReviewId(reviewId)

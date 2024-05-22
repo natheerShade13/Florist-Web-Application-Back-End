@@ -29,7 +29,6 @@ public class ReviewFactoryTest {
         Assertions.assertEquals(reviewDateA, reviewA.getReviewDate());
         System.out.println(reviewA);
     }
-
     @Test
     @Order(2)
     void testCreateReview() {
