@@ -25,38 +25,28 @@ public class NotificationService implements INotificationService {
     }
 
     @Override
-    public Notification saveNotification(Notification notification) {
-        return notificationRepository.save(notification);
-    }
-
-    @Override
-    public Notification getNotificationById(Long notificationId) {
-        Optional<Notification> optionalNotification = notificationRepository.findById(notificationId);
-        return optionalNotification.orElse(null);
-    }
-
-    @Override
-    public Notification updateNotification(Notification notification) {
-        return notificationRepository.save(notification);
-    }
-
-    @Override
-    public void deleteNotification(Long notificationId) {
-        notificationRepository.deleteById(notificationId);
-    }
-
-    @Override
     public Notification create(Notification notification) {
-        return null;
+        return notificationRepository.save(notification);
     }
 
     @Override
-    public Notification read(Long aLong) {
-        return null;
+    public Notification read(Long id) {
+        Optional<Notification> notification = notificationRepository.findById(id);
+        return notification.orElse(null);
     }
 
     @Override
     public Notification update(Notification notification) {
+        if (notificationRepository.existsById(notification.getNotificationId())) {
+            return notificationRepository.save(notification);
+        }
         return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (notificationRepository.existsById(id)) {
+            notificationRepository.deleteById(id);
+        }
     }
 }

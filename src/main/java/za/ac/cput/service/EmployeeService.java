@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Employee;
 import za.ac.cput.repository.EmployeeRepository;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,37 +25,28 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public Employee saveEmployee(Employee employee) {
-        return employeeRepository.save(employee);
-    }
-
-    @Override
-    public Employee getEmployeeById(Long employeeId) {
-        return employeeRepository.findById(employeeId).orElse(null);
-    }
-
-    @Override
-    public Employee updateEmployee(Employee employee) {
-        return employeeRepository.save(employee);
-    }
-
-    @Override
-    public void deleteEmployee(Long employeeId) {
-        employeeRepository.deleteById(employeeId);
-    }
-
-    @Override
     public Employee create(Employee employee) {
-        return null;
+        return employeeRepository.save(employee);
     }
 
     @Override
-    public Employee read(Long aLong) {
-        return null;
+    public Employee read(Long id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        return employee.orElse(null);
     }
 
     @Override
     public Employee update(Employee employee) {
+        if (employeeRepository.existsById(employee.getEmployeeId())) {
+            return employeeRepository.save(employee);
+        }
         return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (employeeRepository.existsById(id)) {
+            employeeRepository.deleteById(id);
+        }
     }
 }

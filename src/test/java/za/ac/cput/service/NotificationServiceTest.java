@@ -1,86 +1,79 @@
 package za.ac.cput.service;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import za.ac.cput.domain.Customer;
 import za.ac.cput.domain.Notification;
 
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Transactional
 class NotificationServiceTest {
 
     @Autowired
     private NotificationService notificationService;
 
-    private static Notification notification1;
-    private static Notification notification2;
+    @Autowired
+    private CustomerService customerService;
 
-    @BeforeAll
-    static void setup() {
-        notification1 = new Notification.Builder().setNotificationId(1L).setMessage("Content 1").build();
-        notification2 = new Notification.Builder().setNotificationId(2L).setMessage("Content 2").build();
-    }
-
-    @Order(1)
     @Test
-    void a_setup() {
-        Assertions.assertNotNull(notification1);
-        System.out.println(notification1);
-
-        Assertions.assertNotNull(notification2);
-        System.out.println(notification2);
-    }
-
-    @Order(2)
-    @Test
-    void b_saveNotification() {
-        Notification savedNotification1 = notificationService.saveNotification(notification1);
-        Assertions.assertNotNull(savedNotification1);
-        System.out.println(savedNotification1);
-
-        Notification savedNotification2 = notificationService.saveNotification(notification2);
-        Assertions.assertNotNull(savedNotification2);
-        System.out.println(savedNotification2);
-    }
-
-    @Order(3)
-    @Test
-    void c_getNotificationById() {
-        Notification retrievedNotification = notificationService.getNotificationById(notification2.getNotificationId());
-        Assertions.assertNotNull(retrievedNotification);
-        System.out.println(retrievedNotification);
-    }
-
-    @Order(4)
-    @Test
-    void d_updateNotification() {
-        Notification updatedNotification = new Notification.Builder()
-                .copy(notification2)
-                .setMessage("Updated Content")
+    void a_create() {
+        Customer customer = new Customer.Builder()
+                .setCustomerId(1L)
+                .setFirstName("Sasuke")
                 .build();
+        customerService.create(customer);
 
-        Notification result = notificationService.updateNotification(updatedNotification);
-        Assertions.assertNotNull(result);
-        System.out.println(result);
+        Notification.Builder builder = new Notification.Builder();
+        builder.setCustomer(customer)
+                .setMessage("This is a test notification.")
+                .setIsRead(false)
+                .setDateSent(new Date());
+        Notification notification = builder.build();
+
+        notificationService.create(notification);
+        assertNotNull(notification.getNotificationId());
     }
 
-    @Order(5)
     @Test
-    void e_getAllNotifications() {
-        Assertions.assertFalse(notificationService.getAllNotifications().isEmpty());
-        System.out.println(notificationService.getAllNotifications());
+    void b_read() {
+        a_create();
+        Notification notification = notificationService.getAllNotifications().stream().findFirst().orElse(null);
+        assertNotNull(notification);
+        Notification foundNotification = notificationService.read(notification.getNotificationId());
+        assertNotNull(foundNotification);
+        assertEquals(notification.getMessage(), foundNotification.getMessage());
+        assertEquals(notification.getCustomer().getCustomerId(), foundNotification.getCustomer().getCustomerId());
     }
 
-    @Order(6)
     @Test
-    void f_deleteNotification() {
-        notificationService.deleteNotification(notification1.getNotificationId());
-        Notification deletedNotification = notificationService.getNotificationById(notification1.getNotificationId());
-        Assertions.assertNull(deletedNotification);
+    void c_update() {
+        a_create();
+        Notification notification = notificationService.getAllNotifications().stream().findFirst().orElse(null);
+        assertNotNull(notification);
+        String newMessage = "Updated notification content";
+        Notification.Builder builder = new Notification.Builder().copy(notification);
+        builder.setMessage(newMessage)
+                .setIsRead(true);
+        Notification updatedNotification = builder.build();
+        notificationService.update(updatedNotification);
+        Notification retrievedNotification = notificationService.read(notification.getNotificationId());
+        assertEquals(newMessage, retrievedNotification.getMessage());
+        assertTrue(retrievedNotification.isRead());
+    }
 
-        notificationService.deleteNotification(notification2.getNotificationId());
-        Notification deletedNotification2 = notificationService.getNotificationById(notification2.getNotificationId());
-        Assertions.assertNull(deletedNotification2);
+    @Test
+    void d_delete() {
+        a_create();
+        Notification notification = notificationService.getAllNotifications().stream().findFirst().orElse(null);
+        assertNotNull(notification);
+        notificationService.delete(notification.getNotificationId());
+        Notification deletedNotification = notificationService.read(notification.getNotificationId());
+        assertNull(deletedNotification);
     }
 }

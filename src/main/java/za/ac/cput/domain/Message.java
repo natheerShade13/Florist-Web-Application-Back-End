@@ -35,7 +35,7 @@ public class Message {
     private Employee employee;
 
     // Private constructor to enforce the use of the builder
-    private Message(Builder builder) {
+    public Message(Builder builder) {
         this.messageId = builder.messageId;
         this.subject = builder.subject;
         this.messageContent = builder.messageContent;
