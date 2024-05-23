@@ -26,7 +26,7 @@ class SupplierProductServiceTest {
     SupplierService supplierService;
 
     String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
-    Product product = ProductFactory.buildProduct("12345", "Roses", "Filled With yooh", 25.00f, imageUrl);
+    Product product = ProductFactory.buildProduct("12345", "Roses", "A woody  flowering plant of the genus Rosa", 25.00f, imageUrl);
     Supplier supplier = SupplierFactory.buildSupplier("76543", "John", "Doe", "johnD@gmail.com", "+27664556724");
     SupplierProduct supplierProduct = SupplierProductFactory.buildSupplierProduct("888", 50.00f, product, supplier);
 

@@ -58,6 +58,8 @@ public class SupplierProduct {
         return "SupplierProduct{" +
                 "supplierProductId='" + supplierProductId + '\'' +
                 ", supplyPrice=" + supplyPrice +
+                ", supplier=" + supplier +
+                ", product=" + product +
                 '}';
     }
 
