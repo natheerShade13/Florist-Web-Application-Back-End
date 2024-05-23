@@ -26,6 +26,9 @@ public class SupplierProduct {
     private SupplierProduct(Builder builder) {
         this.supplyPrice = builder.supplyPrice;
         this.supplierProductId = builder.supplierProductId;
+        this.product = builder.product;
+        this.supplier = builder.supplier;
+
 
     }
 
@@ -61,6 +64,9 @@ public class SupplierProduct {
     public static class Builder {
         private String supplierProductId;
         private double supplyPrice;
+        private Supplier supplier;
+        private Product product;
+
 
         public Builder setSupplierProductId(String supplierProductId) {
             this.supplierProductId = supplierProductId;
@@ -72,9 +78,21 @@ public class SupplierProduct {
             return this;
         }
 
+        public Builder setSupplier(Supplier supplier) {
+            this.supplier = supplier;
+            return this;
+        }
+
+        public Builder setProduct(Product product) {
+            this.product = product;
+            return this;
+        }
+
         public Builder copy(SupplierProduct supplierProduct) {
             this.supplyPrice = supplierProduct.supplyPrice;
             this.supplierProductId = supplierProduct.supplierProductId;
+            this.product = supplierProduct.product;
+            this.supplier = supplierProduct.supplier;
             return this;
         }
 
