@@ -23,7 +23,7 @@ public class Product {
 
     @Column(name = "image_url")
     private String imageUrl;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
     private List<SupplierProduct> supplierProducts;
 
     //This should be protected , @Mabotse Something is wrong with your review class , you're building a review with an empty product and customer
