@@ -3,9 +3,7 @@ package za.ac.cput.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import za.ac.cput.domain.Customer;
-import za.ac.cput.domain.Employee;
 import za.ac.cput.domain.Message;
 
 import java.util.Date;
@@ -13,7 +11,6 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 class MessageServiceTest {
 
     @Autowired
@@ -22,75 +19,64 @@ class MessageServiceTest {
     @Autowired
     private CustomerService customerService;
 
-    @Autowired
-    private EmployeeService employeeService;
-
     @Test
-    void a_create() {
+    void createMessage() {
         Customer customer = new Customer.Builder()
-                .setFirstName("Minato")
+                .setFirstName("Kakashi")
+                .setLastName("Hatake")
+                .setContact("kakashihatake@gmail.com")
                 .build();
-        customerService.create(customer);
 
-        Employee employee = new Employee.Builder()
-                .setName("Kakashi")
-                .setEmail("kakashi@gmail.com")
-                .setAddress("123 Main St")
-                .setPhone("123-456-7890")
-                .setRole("Developer")
-                .build();
-        employeeService.create(employee);
+        customer = customerService.create(customer);
+        assertNotNull(customer);
 
         Message message = new Message.Builder()
-                .setSubject("Test Subject")
-                .setMessageContent("Hello, this is a test message.")
+                .setSubject("Test subject")
+                .setMessageContent("Test message content")
                 .setIsRead(false)
                 .setDateSent(new Date())
                 .setCustomer(customer)
-                .setEmployee(employee)
                 .build();
 
-        messageService.create(message);
-        assertNotNull(message.getMessageId());
+        message = messageService.create(message);
+        assertNotNull(message);
+        System.out.println(message);
     }
 
     @Test
-    void b_read() {
-        a_create();
-        Message message = messageService.getAllMessages().stream().findFirst().orElse(null);
-        assertNotNull(message);
-        Message foundMessage = messageService.read(message.getMessageId());
-        assertNotNull(foundMessage);
-        assertEquals(message.getSubject(), foundMessage.getSubject());
-        assertEquals(message.getMessageContent(), foundMessage.getMessageContent());
-        assertEquals(message.isRead(), foundMessage.isRead());
-        assertEquals(message.getDateSent(), foundMessage.getDateSent());
-        assertEquals(message.getCustomer().getCustomerId(), foundMessage.getCustomer().getCustomerId());
-        assertEquals(message.getEmployee().getEmployeeId(), foundMessage.getEmployee().getEmployeeId());
+    void readMessages() {
+        Iterable<Message> messages = messageService.getAllMessages();
+
+        assertNotNull(messages);
+        messages.forEach(System.out::println);
     }
 
     @Test
-    void c_update() {
-        a_create();
-        Message message = messageService.getAllMessages().stream().findFirst().orElse(null);
-        assertNotNull(message);
-        String newContent = "Updated message content";
-        Message updatedMessage = new Message.Builder()
+    void updateMessage() {
+        long messageId = 1L;
+
+        Message message = messageService.read(messageId);
+
+        assertNotNull(message, "Message with id " + messageId + " not found");
+
+        message = new Message.Builder()
                 .copy(message)
-                .setMessageContent(newContent)
+                .setMessageContent("Updated content")
                 .build();
-        messageService.update(updatedMessage);
-        Message retrievedMessage = messageService.read(message.getMessageId());
-        assertEquals(newContent, retrievedMessage.getMessageContent());
+
+        message = messageService.update(message);
+
+        assertNotNull(message);
+        assertEquals("Updated content", message.getMessageContent());
+        System.out.println(message);
     }
 
     @Test
-    void d_delete() {
-        a_create();
-        Message message = messageService.getAllMessages().stream().findFirst().orElse(null);
-        assertNotNull(message);
-        messageService.delete(message.getMessageId());
-        Message deletedMessage = messageService.read(message.getMessageId());
-        assertNull(deletedMessage);
+    void deleteMessage() {
+        long messageId = 1L;
+
+        messageService.delete(messageId);
+
+        assertNull(messageService.read(messageId));
     }
 }

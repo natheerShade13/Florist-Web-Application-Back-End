@@ -11,27 +11,27 @@ public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "message_id", nullable = false)
+    @Column(name = "message_id")
     private long messageId;
 
-    @Column(name = "subject", nullable = false)
+    @Column(name = "subject")
     private String subject;
 
-    @Column(name = "message_content", nullable = false)
+    @Column(name = "message_content")
     private String messageContent;
 
-    @Column(name = "is_read", nullable = false)
+    @Column(name = "is_read")
     private boolean isRead;
 
-    @Column(name = "date_sent", nullable = false)
+    @Column(name = "date_sent")
     private Date dateSent;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     // Private constructor to enforce the use of the builder

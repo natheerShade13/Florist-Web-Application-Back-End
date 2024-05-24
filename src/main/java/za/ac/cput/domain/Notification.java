@@ -14,7 +14,7 @@ public class Notification {
     private long notificationId;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     private String message;
@@ -92,6 +92,9 @@ public class Notification {
         private String message;
         private boolean isRead;
         private Date dateSent;
+
+        public Builder() {
+        }
 
         public Builder setNotificationId(long notificationId) {
             this.notificationId = notificationId;

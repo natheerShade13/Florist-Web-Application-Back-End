@@ -32,7 +32,7 @@ public class MessageService implements IMessageService {
     @Override
     public Message read(Long id) {
         Optional<Message> message = messageRepository.findById(id);
-        return message.orElse(null); // Or throw a custom exception if not found
+        return message.orElse(null);
     }
 
     @Override
