@@ -2,9 +2,9 @@ package za.ac.cput.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import za.ac.cput.domain.Review;
+import za.ac.cput.domain.Cart;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Long> {
-    Review findByReviewId(Long id);
+public interface CartRepository extends JpaRepository<Cart, Long> {
+    Cart findByCartId(long cartId);
 }

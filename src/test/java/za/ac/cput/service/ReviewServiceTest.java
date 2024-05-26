@@ -24,6 +24,20 @@ class ReviewServiceTest {
 
     static Product product = new Product();
     static Customer customer = new Customer();
+//    @BeforeAll
+//    static void beforeAll() {
+//        product = new Product.Builder()
+//                .setProductId("12345")
+//                .setProductName("Sample Product")
+//                .setProductDescription("Description of the product")
+//                .setPrice(100.0)
+//                .build();
+//
+//        customer = new Customer.Builder()
+//                .setFirstName("Mabotse")
+//                .setLastname("Mosima")
+//                .build();
+//    }
     private Review review = ReviewFactory.createProductReview(product, customer, 4, "Bad Quality", LocalDate.now());
 
     @Test

@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id", nullable = false)
     private long reviewId;
 
