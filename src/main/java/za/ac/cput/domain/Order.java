@@ -2,13 +2,14 @@ package za.ac.cput.domain;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id", nullable = false)
     private long orderId;
 
@@ -22,7 +23,10 @@ public class Order {
     private String status;
 
     @Column(name = "order_line")
-    private String orderLine;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+    private List<OrderLine> orderLine;
+
+    //private Customer customer;
 
     protected Order() {}
 
@@ -51,7 +55,7 @@ public class Order {
         return status;
     }
 
-    public String getOrderLine() {
+    public List<OrderLine> getOrderLine() {
         return orderLine;
     }
 
@@ -72,7 +76,8 @@ public class Order {
         this.status = status;
     }
 
-    public void setOrderLine(String orderLine) {
+
+    public void setOrderLine(List<OrderLine> orderLine) {
         this.orderLine = orderLine;
     }
 
@@ -81,7 +86,7 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return orderId == order.orderId && Double.compare(order.totalAmount, totalAmount) == 0 && Objects.equals(orderDate, order.orderDate) && Objects.equals(status, order.status) && Objects.equals(orderLine, order.orderLine);
+        return orderId == order.orderId && Double.compare(totalAmount, order.totalAmount) == 0 && Objects.equals(orderDate, order.orderDate) && Objects.equals(status, order.status) && Objects.equals(orderLine, order.orderLine);
     }
 
     @Override
@@ -96,7 +101,7 @@ public class Order {
                 ", orderDate=" + orderDate +
                 ", totalAmount=" + totalAmount +
                 ", status='" + status + '\'' +
-                ", orderLine='" + orderLine + '\'' +
+                ", orderLine=" + orderLine +
                 '}';
     }
 
@@ -105,7 +110,7 @@ public class Order {
         private Date orderDate;
         private double totalAmount;
         private String status;
-        private String orderLine;
+        private List<OrderLine> orderLine;
 
         public Builder setOrderId(long orderId) {
             this.orderId = orderId;
@@ -127,12 +132,12 @@ public class Order {
             return this;
         }
 
-        public Builder setOrderLine(String orderLine) {
+        public Builder setOrderLine(List<OrderLine> orderLine) {
             this.orderLine = orderLine;
             return this;
         }
 
-        public Builder copy(Order order) {
+        public Builder copy(Order order){
             this.orderId = order.orderId;
             this.orderDate = order.orderDate;
             this.totalAmount = order.totalAmount;
@@ -141,7 +146,7 @@ public class Order {
             return this;
         }
 
-        public Order build() {
+        public Order build(){
             return new Order(this);
         }
     }

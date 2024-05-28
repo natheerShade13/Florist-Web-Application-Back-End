@@ -8,7 +8,7 @@ import java.util.Objects;
 @Table(name = "order_line")
 public class OrderLine {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_line_id", nullable = false)
     private long orderLineId;
 
@@ -20,6 +20,9 @@ public class OrderLine {
 
     @Column(name = "price", nullable = false)
     private double price;
+    @ManyToOne
+    @JoinColumn(name = "orderId")
+    private Order order;
 
     protected OrderLine(){}
 
@@ -28,6 +31,7 @@ public class OrderLine {
         this.item = builder.item;
         this.quantity = builder.quantity;
         this.price = builder.price;
+        this.order = builder.order;
     }
 
     public long getOrderLineId() {
@@ -46,17 +50,21 @@ public class OrderLine {
         return price;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderLine orderLine = (OrderLine) o;
-        return orderLineId == orderLine.orderLineId && quantity == orderLine.quantity && Double.compare(orderLine.price, price) == 0 && Objects.equals(item, orderLine.item);
+        return orderLineId == orderLine.orderLineId && quantity == orderLine.quantity && Double.compare(price, orderLine.price) == 0 && Objects.equals(item, orderLine.item) && Objects.equals(order, orderLine.order);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderLineId, item, quantity, price);
+        return Objects.hash(orderLineId, item, quantity, price, order);
     }
 
     @Override
@@ -66,6 +74,7 @@ public class OrderLine {
                 ", item='" + item + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
+                ", order=" + order +
                 '}';
     }
 
@@ -74,6 +83,7 @@ public class OrderLine {
         private String item;
         private int quantity;
         private double price;
+        private Order order;
 
         public Builder setOrderLineId(long orderLineId) {
             this.orderLineId = orderLineId;
@@ -95,11 +105,17 @@ public class OrderLine {
             return this;
         }
 
+        public Builder setOrder(Order order) {
+            this.order = order;
+            return this;
+        }
+
         public Builder copy(OrderLine orderLine){
             this.orderLineId = orderLine.orderLineId;
             this.item = orderLine.item;
             this.quantity = orderLine.quantity;
             this.price = orderLine.price;
+            this.order = orderLine.order;
             return this;
         }
 
