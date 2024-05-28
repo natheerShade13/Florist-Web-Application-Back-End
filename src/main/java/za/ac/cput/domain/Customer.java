@@ -18,7 +18,6 @@ public class Customer {
     private String lastname;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "email")
     private Contact contact;
 
     public Customer() {
