@@ -26,6 +26,8 @@ public class Product {
     private List<Review> reviews;
     @OneToMany(mappedBy = "product")
     private List<CartProduct> cartProducts;
+    @OneToMany(mappedBy = "product")
+    private List<WishlistProduct> wishlists;
 
     protected Product(){}
 
