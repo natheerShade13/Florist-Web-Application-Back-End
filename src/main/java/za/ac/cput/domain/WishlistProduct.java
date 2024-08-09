@@ -66,16 +66,19 @@ public class WishlistProduct {
         private Wishlist wishlist;
         private Product product;
 
-        public void setWishlistProductId(long wishlistProductId) {
+        public Builder setWishlistProductId(long wishlistProductId) {
             this.wishlistProductId = wishlistProductId;
+            return this;
         }
 
-        public void setWishlist(Wishlist wishlist) {
+        public Builder setWishlist(Wishlist wishlist) {
             this.wishlist = wishlist;
+            return this;
         }
 
-        public void setProduct(Product product) {
+        public Builder setProduct(Product product) {
             this.product = product;
+            return this;
         }
 
         public Builder copy(WishlistProduct wishlistProduct){
