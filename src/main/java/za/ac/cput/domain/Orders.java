@@ -23,6 +23,8 @@ public class Orders {
     private Coupon coupon;
     @OneToMany(mappedBy = "orders")
     private List<OrderLine> orderLines;
+    @OneToMany(mappedBy = "orders")
+    private List<Payment> payments;
 
     protected Orders(){}
 

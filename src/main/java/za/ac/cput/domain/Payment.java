@@ -16,7 +16,7 @@ public class Payment {
     private double paymentAmount;
     @ManyToOne
     @JoinColumn(name = "ORDERS_ID")
-    private Orders order;
+    private Orders orders;
 
     protected Payment() {}
 
@@ -41,7 +41,7 @@ public class Payment {
     }
 
     public Orders getOrder() {
-        return order;
+        return orders;
     }
 
     @Override
@@ -49,12 +49,12 @@ public class Payment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Payment payment = (Payment) o;
-        return paymentId == payment.paymentId && Double.compare(paymentAmount, payment.paymentAmount) == 0 && Objects.equals(paymentDate, payment.paymentDate) && Objects.equals(paymentMethod, payment.paymentMethod) && Objects.equals(order, payment.order);
+        return paymentId == payment.paymentId && Double.compare(paymentAmount, payment.paymentAmount) == 0 && Objects.equals(paymentDate, payment.paymentDate) && Objects.equals(paymentMethod, payment.paymentMethod) && Objects.equals(orders, payment.orders);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(paymentId, paymentDate, paymentMethod, paymentAmount, order);
+        return Objects.hash(paymentId, paymentDate, paymentMethod, paymentAmount, orders);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Payment {
                 ", paymentDate=" + paymentDate +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", paymentAmount=" + paymentAmount +
-                ", order=" + order +
+                ", order=" + orders +
                 '}';
     }
 
@@ -73,7 +73,7 @@ public class Payment {
         private LocalDate paymentDate;
         private String paymentMethod;
         private double paymentAmount;
-        private Orders order;
+        private Orders orders;
 
         public Builder setPaymentId(long paymentId) {
             this.paymentId = paymentId;
@@ -95,8 +95,8 @@ public class Payment {
             return this;
         }
 
-        public Builder setOrder(Orders order) {
-            this.order = order;
+        public Builder setOrder(Orders orders) {
+            this.orders = orders;
             return this;
         }
 
@@ -105,7 +105,7 @@ public class Payment {
             this.paymentDate = payment.paymentDate;
             this.paymentMethod = payment.paymentMethod;
             this.paymentAmount = payment.paymentAmount;
-            this.order = payment.order;
+            this.orders = payment.orders;
             return this;
         }
 
