@@ -27,11 +27,11 @@ public class CustomerController {
         return new ResponseEntity<>(verifyLogin, HttpStatus.OK);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer){
-        Customer newCustomer = customerService.create(customer);
-        return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
-    }
+    //@PostMapping("/register")
+    //public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer){
+    //    Customer newCustomer = customerService.create(customer);
+    //    return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
+    //}
 
     @PutMapping("/update") //
     public Customer updateCustomer(@RequestBody Customer customer){
