@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Wishlist {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long wishListId;
     private LocalDate dateCreated;
     @OneToOne

@@ -28,10 +28,10 @@ class CartServiceTest {
     @Test
     @Order(0)
     void setup(){
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer(3, "Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
-        cart = CartFactory.buildCart(1, customer);
+        //cart = CartFactory.buildCart(customer);
     }
 
     @Test
@@ -40,9 +40,10 @@ class CartServiceTest {
         Customer createCustomer = customerService.create(customer);
         assertNotNull(createCustomer);
         System.out.println(createCustomer);
-        Cart createCart = cartService.create(cart);
-        assertNotNull(createCart);
-        System.out.println(createCart);
+        cart = CartFactory.buildCart(createCustomer);
+        cart = cartService.create(cart);
+        assertNotNull(cart);
+        System.out.println(cart);
     }
 
     @Test
@@ -55,9 +56,9 @@ class CartServiceTest {
 
     @Test
     @Order(3)
-    @Disabled //This method is pointless
+    //@Disabled //This method is pointless
     void update() {
-        Cart newCart = new Cart.Builder().copy(cart).setCustomer(customer).build();
+        Cart newCart = new Cart.Builder().copy(cart).setDateCreated(LocalDate.now()).build();
         assertNotNull(newCart);
         Cart updatedCart = cartService.update(newCart);
         assertNotNull(updatedCart);

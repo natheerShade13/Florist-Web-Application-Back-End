@@ -7,12 +7,12 @@ import za.ac.cput.util.WishlistHelper;
 import java.time.LocalDate;
 
 public class WishlistFactory {
-    public static Wishlist buildWishlist(long wishlistId, LocalDate dateCreated, Customer customer) {
-        if (WishlistHelper.validId(wishlistId) || WishlistHelper.isNull(dateCreated) || customer == null) {
+    public static Wishlist buildWishlist(Customer customer) { //long wishlistId, LocalDate dateCreated,
+        if (customer == null) { //WishlistHelper.validId(wishlistId) || WishlistHelper.isNull(dateCreated) ||
             return null;
         }
 
-        return new Wishlist.Builder().setWishListId(wishlistId).setDateCreated(dateCreated).setCustomer(customer)
+        return new Wishlist.Builder().setDateCreated(LocalDate.now()).setCustomer(customer) //.setWishListId(wishlistId)
                 .build();
     }
 }

@@ -31,7 +31,7 @@ class WishlistServiceTest {
         customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
-        wishlist = WishlistFactory.buildWishlist(1, LocalDate.now(), customer);
+        //wishlist = WishlistFactory.buildWishlist(customer);
     }
 
     @Test
@@ -39,8 +39,9 @@ class WishlistServiceTest {
     void create() {
         Customer createCustomer = customerService.create(customer);
         assertNotNull(createCustomer);
-        Wishlist createWishlist = wishlistService.create(wishlist);
-        assertNotNull(createWishlist);
+        wishlist = WishlistFactory.buildWishlist(createCustomer);
+        wishlist = wishlistService.create(wishlist);
+        assertNotNull(wishlist);
         System.out.println(wishlist);
     }
 

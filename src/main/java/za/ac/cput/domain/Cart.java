@@ -2,6 +2,7 @@ package za.ac.cput.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,8 +10,9 @@ import java.util.Objects;
 public class Cart {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long cartId;
+    private LocalDate dateCreated;
     @OneToOne
     @JoinColumn(name = "CUS_ID")
     private Customer customer;
@@ -21,11 +23,16 @@ public class Cart {
 
     private Cart(Builder builder){
         this.cartId = builder.cartId;
+        this.dateCreated = builder.dateCreated;
         this.customer = builder.customer;
     }
 
     public long getCartId() {
         return cartId;
+    }
+
+    public LocalDate getDateCreated() {
+        return dateCreated;
     }
 
     public Customer getCustomer() {
@@ -37,18 +44,19 @@ public class Cart {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cart cart = (Cart) o;
-        return cartId == cart.cartId && Objects.equals(customer, cart.customer);
+        return cartId == cart.cartId && Objects.equals(dateCreated, cart.dateCreated) && Objects.equals(customer, cart.customer) && Objects.equals(cartProducts, cart.cartProducts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cartId, customer);
+        return Objects.hash(cartId, dateCreated, customer, cartProducts);
     }
 
     @Override
     public String toString() {
         return "Cart{" +
                 "cartId=" + cartId +
+                ", dateCreated=" + dateCreated +
                 ", customer=" + customer +
                 '}';
     }
@@ -56,10 +64,16 @@ public class Cart {
     public static class Builder{
 
         private long cartId;
+        private LocalDate dateCreated;
         private Customer customer;
 
         public Builder setCartId(long cartId) {
             this.cartId = cartId;
+            return this;
+        }
+
+        public Builder setDateCreated(LocalDate dateCreated) {
+            this.dateCreated = dateCreated;
             return this;
         }
 
@@ -70,6 +84,7 @@ public class Cart {
 
         public Builder copy(Cart cart){
             this.cartId = cart.cartId;
+            this.dateCreated = cart.dateCreated;
             this.customer = cart.customer;
             return this;
         }

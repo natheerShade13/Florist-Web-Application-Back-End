@@ -21,17 +21,15 @@ class CartFactoryTest {
         customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
-        cartA = CartFactory.buildCart(1, customer);
+        cartA = CartFactory.buildCart(customer);
         assertNotNull(cartA);
         System.out.println(cartA);
     }
 
     @Test
     void buildCartFail() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
-                , "jake.long@gmail.com", "jakeLong", "0677784626"
-                , LocalDate.of(2000, Month.JANUARY, 1));
-        cartB = CartFactory.buildCart(-5, customer);
+        Customer customerB = null;
+        cartB = CartFactory.buildCart(customerB);
         assertNotNull(cartB);
         System.out.println(cartB);
     }

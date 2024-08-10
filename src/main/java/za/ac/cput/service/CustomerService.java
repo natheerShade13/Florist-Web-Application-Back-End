@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 //Create API for calculating the (orders amount - coupon discount); Done
-//When using create, check for certain conditions;
-//Delete method might need changing;
+//When using create, check for certain conditions like an email that already exists;
+//Delete method might need changing and getAll() might need to return a set;
 
 @Service
 public class CustomerService implements IService<Customer, Long>{
@@ -84,9 +84,9 @@ public class CustomerService implements IService<Customer, Long>{
         return customerRepository.findAll();
     }
 
-    public boolean verifyLogin(String email, String password){
-        Optional<Customer> verifyCustomer = customerRepository.findByEmailAndPassword(email, password);
+    public Customer verifyLogin(String email, String password){
+        Customer verifyCustomer = customerRepository.findByEmailAndPassword(email, password);
 
-        return verifyCustomer.isPresent();
+        return verifyCustomer;
     }
 }

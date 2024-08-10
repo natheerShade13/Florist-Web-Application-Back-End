@@ -21,9 +21,9 @@ public class CustomerController {
     }
 
     @GetMapping("/login/{email}/{password}")
-    public ResponseEntity<Boolean> login(@PathVariable String email,
+    public ResponseEntity<Customer> login(@PathVariable String email,
                                          @PathVariable String password){
-        boolean verifyLogin = customerService.verifyLogin(email, password);
+        Customer verifyLogin = customerService.verifyLogin(email, password);
         return new ResponseEntity<>(verifyLogin, HttpStatus.OK);
     }
 

@@ -20,19 +20,15 @@ class WishlistFactoryTest {
         customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
-        wishlistA = WishlistFactory.buildWishlist(1, LocalDate.now(), customer);
+        wishlistA = WishlistFactory.buildWishlist(customer);
         assertNotNull(wishlistA);
         System.out.println(wishlistA);
     }
 
     @Test
     void buildWishlistFail() {
-        Customer customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
-                , "jake.long@gmail.com", "jakeLong", "0677784626"
-                , LocalDate.of(2000, Month.JANUARY, 1));
-        assertNotNull(customer);
-        System.out.println(customer);
-        wishlistB = WishlistFactory.buildWishlist(0, LocalDate.now(), customer);
+        Customer customerA = null;
+        wishlistB = WishlistFactory.buildWishlist(customerA);
         assertNotNull(wishlistB);
         System.out.println(wishlistB);
     }

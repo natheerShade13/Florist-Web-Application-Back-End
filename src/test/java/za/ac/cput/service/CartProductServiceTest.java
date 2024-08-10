@@ -41,11 +41,11 @@ class CartProductServiceTest {
         customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
-        cart = CartFactory.buildCart(1, customer);
+        //cart = CartFactory.buildCart(customer);
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
         product = ProductFactory.buildProduct(1, "Jalapeno", "Red hot jalapeno"
                 , 50, imageUrl, 5, "Plant");
-        cartProduct = CartProductFactory.buildCartProduct(1, cart, product, 5, 50);
+        //cartProduct = CartProductFactory.buildCartProduct(1, cart, product, 5, 50);
     }
 
     @Test
@@ -54,15 +54,17 @@ class CartProductServiceTest {
         Customer createCustomer = customerService.create(customer);
         assertNotNull(createCustomer);
         System.out.println(createCustomer);
-        Cart createCart = cartService.create(cart);
-        assertNotNull(createCart);
-        System.out.println(createCart);
+        cart = CartFactory.buildCart(createCustomer);
+        cart = cartService.create(cart);
+        assertNotNull(cart);
+        System.out.println(cart);
         Product createProduct = productService.create(product);
         assertNotNull(createProduct);
         System.out.println(createProduct);
-        CartProduct createCartProduct = cartProductService.create(cartProduct);
-        assertNotNull(createCartProduct);
-        System.out.println(createCartProduct);
+        cartProduct = CartProductFactory.buildCartProduct(1, cart, createProduct, 5, 50);
+        cartProduct = cartProductService.create(cartProduct);
+        assertNotNull(cartProduct);
+        System.out.println(cartProduct);
     }
 
     @Test
