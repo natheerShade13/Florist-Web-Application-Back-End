@@ -24,11 +24,13 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "CUS_ID")
     private long customerId;
-    @Column(name = "CUS_FNAME", nullable = false)
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
-    //@Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
     private String mobileNumber;
     //@Column(nullable = false)
