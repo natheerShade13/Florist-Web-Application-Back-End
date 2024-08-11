@@ -20,22 +20,28 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    @GetMapping("/login/{email}")
+    public ResponseEntity<Customer> getCustomer(@PathVariable String email){
+        Customer customer = customerService.getCustomer(email);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+
     @GetMapping("/login/{email}/{password}")
-    public ResponseEntity<Customer> login(@PathVariable String email,
-                                         @PathVariable String password){
-        Customer verifyLogin = customerService.verifyLogin(email, password);
+    public ResponseEntity<Boolean> login(@PathVariable String email,
+                                          @PathVariable String password){
+        boolean verifyLogin = customerService.verifyLogin(email, password);
         return new ResponseEntity<>(verifyLogin, HttpStatus.OK);
     }
 
-    //@PostMapping("/register")
-    //public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer){
-    //    Customer newCustomer = customerService.create(customer);
-    //    return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
-    //}
-
-    @PutMapping("/update") //
-    public Customer updateCustomer(@RequestBody Customer customer){
-        return customerService.update(customer);
+    @PutMapping("/update")
+    public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer){
+        Customer updateCustomer = customerService.update(customer);
+        return new ResponseEntity<>(updateCustomer, HttpStatus.OK);
     }
+
+//    @PutMapping("/update") //
+//    public Customer updateCustomer(@RequestBody Customer customer){
+//        return customerService.update(customer);
+//    }
 
 }

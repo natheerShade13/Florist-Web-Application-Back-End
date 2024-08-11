@@ -11,6 +11,7 @@ public class Coupon {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long couponId;
+    @Column(unique=true)
     private String code;
     private double discountAmount;
     private LocalDate expiryDate;

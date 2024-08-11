@@ -13,8 +13,8 @@ public class Address {
     private String streetNumber;
     private String streetName;
     private String suburb;
-    private String postalCode;
     private String city;
+    private String postalCode;
     //@Id
     @ManyToOne
     @JoinColumn(name = "CUSTOMER_ID")
@@ -27,8 +27,8 @@ public class Address {
         this.streetNumber = builder.streetNumber;;
         this.streetName = builder.streetName;
         this.suburb = builder.suburb;
-        this.postalCode = builder.postalCode;
         this.city = builder.city;
+        this.postalCode = builder.postalCode;
         this.customer = builder.customer;
     }
 
@@ -92,8 +92,8 @@ public class Address {
         private String streetNumber;
         private String streetName;
         private String suburb;
-        private String postalCode;
         private String city;
+        private String postalCode;
         private Customer customer;
 
         public Builder setAddressId(long addressId) {
@@ -136,8 +136,8 @@ public class Address {
             this.streetNumber = address.streetNumber;;
             this.streetName = address.streetName;
             this.suburb = address.suburb;
-            this.postalCode = address.postalCode;
             this.city = address.city;
+            this.postalCode = address.postalCode;
             this.customer = address.customer;
             return this;
         }
