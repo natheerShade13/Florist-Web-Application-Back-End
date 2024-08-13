@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Customer;
 import za.ac.cput.service.CustomerService;
 
+import java.util.List;
+
 // Build objects using Factory to utilize Helper classes;
 
 @RestController
@@ -33,8 +35,14 @@ public class CustomerController {
         return new ResponseEntity<>(verifyLogin, HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Customer>> getAll(){
+        List<Customer> customerList = customerService.getAll();
+        return new ResponseEntity<>(customerList, HttpStatus.OK);
+    }
+
     @PutMapping("/update")
-    public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer){
         Customer updateCustomer = customerService.update(customer);
         return new ResponseEntity<>(updateCustomer, HttpStatus.OK);
     }
@@ -43,5 +51,11 @@ public class CustomerController {
 //    public Customer updateCustomer(@RequestBody Customer customer){
 //        return customerService.update(customer);
 //    }
+
+    @DeleteMapping("/delete/{customerId}")
+    public ResponseEntity<Boolean> deleteCustomer(@PathVariable long customerId){
+        boolean deleteCustomer = customerService.delete(customerId);
+        return new ResponseEntity<>(deleteCustomer, HttpStatus.OK);
+    }
 
 }
