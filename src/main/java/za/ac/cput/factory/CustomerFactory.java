@@ -11,18 +11,18 @@ import java.time.LocalDate;
 
 public class CustomerFactory {
 
-    public static Customer buildCustomer(long customerId, String firstName, String lastName, String email
+    public static Customer buildCustomer(String firstName, String lastName, String email
             , String password, String mobileNumber, LocalDate dateOfBirth){
 
-        if(CustomerHelper.validId(customerId) || CustomerHelper.isNullOrEmpty(firstName) ||
+        if(CustomerHelper.isNullOrEmpty(firstName) ||
                 CustomerHelper.isNullOrEmpty(lastName) || CustomerHelper.validateEmail(email)
                 || CustomerHelper.isNullOrEmpty(password) || CustomerHelper.checkNumber(mobileNumber)
                 || CustomerHelper.isNull(dateOfBirth)){
             return null;
         }
 
-        return new Customer.Builder().setCustomerId(customerId).setFirstName(firstName).setLastName(lastName)
-                .setEmail(email).setPassword(password).setMobileNumber(mobileNumber).setDateOfBirth(dateOfBirth)
+        return new Customer.Builder().setFirstName(firstName).setLastName(lastName)
+                .setEmail(email.toLowerCase()).setPassword(password).setMobileNumber(mobileNumber).setDateOfBirth(dateOfBirth)
                 .build();
     }
 }

@@ -47,11 +47,6 @@ public class CustomerController {
         return new ResponseEntity<>(updateCustomer, HttpStatus.OK);
     }
 
-//    @PutMapping("/update") //
-//    public Customer updateCustomer(@RequestBody Customer customer){
-//        return customerService.update(customer);
-//    }
-
     @DeleteMapping("/delete/{customerId}")
     public ResponseEntity<Boolean> deleteCustomer(@PathVariable long customerId){
         boolean deleteCustomer = customerService.delete(customerId);

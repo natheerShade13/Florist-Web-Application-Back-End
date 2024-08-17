@@ -1,9 +1,6 @@
 package za.ac.cput.service;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Customer;
@@ -37,7 +34,7 @@ class ReviewServiceTest {
     @Test
     @Order(0)
     void setup(){
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
@@ -81,6 +78,7 @@ class ReviewServiceTest {
 
     @Test
     @Order(5)
+    //@Disabled
     void delete() {
         boolean deleteReview = reviewService.delete(review.getReviewId());
         assertTrue(deleteReview);

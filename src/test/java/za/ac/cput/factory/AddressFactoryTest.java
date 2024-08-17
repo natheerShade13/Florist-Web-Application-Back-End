@@ -19,7 +19,7 @@ class AddressFactoryTest {
 
     @Test
     void buildAddress() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         addressA = AddressFactory.buildAddress(1, "10", "Church street"
@@ -30,7 +30,7 @@ class AddressFactoryTest {
 
     @Test
     void buildAddressFail() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         addressB = AddressFactory.buildAddress(1, "10", "Church street"

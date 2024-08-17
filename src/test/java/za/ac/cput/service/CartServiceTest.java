@@ -28,10 +28,10 @@ class CartServiceTest {
     @Test
     @Order(0)
     void setup(){
-        customer = CustomerFactory.buildCustomer(3, "Jake", "Long"
-                , "jake.long@gmail.com", "jakeLong", "0677784626"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
+                , "LONG@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
-        //cart = CartFactory.buildCart(customer);
+        cart = CartFactory.buildCart(customer);
     }
 
     @Test
@@ -40,10 +40,10 @@ class CartServiceTest {
         Customer createCustomer = customerService.create(customer);
         assertNotNull(createCustomer);
         System.out.println(createCustomer);
-        cart = CartFactory.buildCart(createCustomer);
-        cart = cartService.create(cart);
-        assertNotNull(cart);
-        System.out.println(cart);
+        //cart = CartFactory.buildCart(createCustomer);
+        Cart createCart = cartService.create(cart);
+        assertNotNull(createCart);
+        System.out.println(createCart);
     }
 
     @Test
@@ -67,6 +67,7 @@ class CartServiceTest {
 
     @Test
     @Order(5)
+    //@Disabled
     void delete() {
         boolean deleteCart = cartService.delete(cart.getCartId());
         assertTrue(deleteCart);
