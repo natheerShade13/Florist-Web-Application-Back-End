@@ -20,7 +20,7 @@ class OrderLineFactoryTest {
 
     @Test
     void buildOrderLine() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         coupon = CouponFactory.buildCoupon(1, "1234", 200
@@ -37,7 +37,7 @@ class OrderLineFactoryTest {
 
     @Test
     void buildOrderLineFail() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         coupon = CouponFactory.buildCoupon(1, "1234", 200

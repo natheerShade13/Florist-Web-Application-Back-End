@@ -18,7 +18,7 @@ class CartProductFactoryTest {
 
     @Test
     void buildCartProduct() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         cart = CartFactory.buildCart(customer);
@@ -32,7 +32,7 @@ class CartProductFactoryTest {
 
     @Test
     void buildCartProductFail() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         cart = CartFactory.buildCart(customer);

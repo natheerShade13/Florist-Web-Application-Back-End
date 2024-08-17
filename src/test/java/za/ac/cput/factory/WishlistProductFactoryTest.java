@@ -22,7 +22,7 @@ class WishlistProductFactoryTest {
 
     @Test
     void buildWishlistProduct() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         wishlist = WishlistFactory.buildWishlist(customer);
@@ -36,7 +36,7 @@ class WishlistProductFactoryTest {
 
     @Test
     void buildWishlistProductFail() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         wishlist = WishlistFactory.buildWishlist(customer);

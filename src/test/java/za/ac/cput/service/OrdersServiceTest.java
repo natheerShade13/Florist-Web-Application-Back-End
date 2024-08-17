@@ -33,7 +33,7 @@ class OrdersServiceTest {
     @Test
     @Order(0)
     void setUp() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         coupon = CouponFactory.buildCoupon(1, "1234", 200
@@ -75,8 +75,8 @@ class OrdersServiceTest {
     }
 
     @Test
-    @Order(5)
-    @Disabled
+    @Order(6)
+    //@Disabled
     void delete() {
         boolean deleteOrders = ordersService.delete(orders.getOrderId());
         assertTrue(deleteOrders);
@@ -90,7 +90,7 @@ class OrdersServiceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void calculateOrder() {
         double calculateOrder = ordersService.calculateOrder(orders);
         System.out.println(calculateOrder);

@@ -25,8 +25,8 @@ class CustomerServiceTest {
     @Test
     @Order(0)
     void setup(){
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
-                , "jake.long@gmail.com", "jakeLong", "0677784626"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
+                , "jack@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
     }
 
@@ -58,7 +58,7 @@ class CustomerServiceTest {
 
     @Test
     @Order(5)
-    @Disabled
+    //@Disabled
     void delete() {
         boolean deleteCustomer = customerService.delete(customer.getCustomerId());
         assertTrue(deleteCustomer);

@@ -28,10 +28,10 @@ class WishlistServiceTest {
     @Test
     @Order(0)
     void setUp() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
-        //wishlist = WishlistFactory.buildWishlist(customer);
+        wishlist = WishlistFactory.buildWishlist(customer);
     }
 
     @Test
@@ -39,10 +39,10 @@ class WishlistServiceTest {
     void create() {
         Customer createCustomer = customerService.create(customer);
         assertNotNull(createCustomer);
-        wishlist = WishlistFactory.buildWishlist(createCustomer);
-        wishlist = wishlistService.create(wishlist);
-        assertNotNull(wishlist);
-        System.out.println(wishlist);
+        //wishlist = WishlistFactory.buildWishlist(createCustomer);
+        Wishlist createWishlist = wishlistService.create(wishlist);
+        assertNotNull(createWishlist);
+        System.out.println(createWishlist);
     }
 
     @Test
@@ -65,6 +65,7 @@ class WishlistServiceTest {
 
     @Test
     @Order(5)
+    //@Disabled
     void delete() {
         boolean deleteWishlist = wishlistService.delete(wishlist.getWishListId());
         assertTrue(deleteWishlist);
