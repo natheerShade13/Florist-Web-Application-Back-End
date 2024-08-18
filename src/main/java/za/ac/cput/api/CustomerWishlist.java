@@ -10,7 +10,6 @@ import za.ac.cput.repository.CustomerRepository;
 import za.ac.cput.repository.ProductRepository;
 import za.ac.cput.repository.WishlistProductRepository;
 import za.ac.cput.repository.WishlistRepository;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

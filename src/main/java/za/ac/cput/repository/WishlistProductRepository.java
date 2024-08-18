@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import za.ac.cput.domain.Product;
 import za.ac.cput.domain.Wishlist;
 import za.ac.cput.domain.WishlistProduct;
-
 import java.util.Optional;
 import java.util.List;
 
