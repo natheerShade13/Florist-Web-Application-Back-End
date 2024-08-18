@@ -21,7 +21,7 @@ public class CustomerRegistrationController {
         this.customerRegistration = customerRegistration;
     }
 
-    @PostMapping(path = "/registerB")
+    @PostMapping(path = "/register")
     public ResponseEntity<Customer> customerRegistration(@RequestBody Customer customer) {
         Customer newCustomer = customerRegistration.registerCustomer(customer);
         return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
