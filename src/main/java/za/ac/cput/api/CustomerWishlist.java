@@ -68,8 +68,7 @@ public class CustomerWishlist {
     }
 
     public List<Product> getProductsInCustomerWishlist(long customerId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        Customer customer = customerService.read(customerId);
         Wishlist wishlist = wishlistRepository.findByCustomer(customer)
                 .orElseThrow(() -> new RuntimeException("Wishlist not found"));
 
