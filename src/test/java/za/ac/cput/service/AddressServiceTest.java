@@ -1,9 +1,6 @@
 package za.ac.cput.service;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Address;
@@ -31,10 +28,10 @@ class AddressServiceTest {
     @Test
     @Order(0)
     void setup(){
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
-                , "jake.long@gmail.com", "jakeLong", "0677784626"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
+                , "long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
-        address = AddressFactory.buildAddress(1, "10", "Church street"
+        address = AddressFactory.buildAddress(2, "10", "Church street"
                 , "Strandfontein", "7798", "Cape Town", customer);
     }
 
@@ -69,6 +66,7 @@ class AddressServiceTest {
 
     @Test
     @Order(5)
+    //@Disabled
     void delete() {
         boolean deleteAddress = addressService.delete(address.getAddressId());
         assertTrue(deleteAddress);

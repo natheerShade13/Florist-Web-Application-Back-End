@@ -35,15 +35,19 @@ class OrderLineServiceTest {
     @Test
     @Order(0)
     void setUp() {
-        customer = CustomerFactory.buildCustomer(1, "Jake", "Long"
-                , "jake.long@gmail.com", "jakeLong", "0677784626"
+        customer = CustomerFactory.buildCustomer("Jake", "Long"
+                , "long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
-        orders = OrdersFactory.buildOrder(1, 250
+        orders = OrdersFactory.buildOrder(2, 250
                 , LocalDate.of(2024, Month.FEBRUARY, 25), "On route", customer, coupon);
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
+<<<<<<< HEAD
         product = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
+=======
+        product = ProductFactory.buildProduct(2, "Jalapeno", "Red hot jalapeno"
+>>>>>>> master
                 , 50, imageUrl, 5, "Plant");
-        orderLine = OrderLineFactory.buildOrderLine(1, orders, product, 5, 250);
+        orderLine = OrderLineFactory.buildOrderLine(2, orders, product, 5, 250);
     }
 
     @Test
@@ -83,6 +87,7 @@ class OrderLineServiceTest {
 
     @Test
     @Order(5)
+    //@Disabled
     void delete() {
         boolean deleteOrderLine = orderLineService.delete(orderLine.getOrderLineId());
         assertNotNull(deleteOrderLine);

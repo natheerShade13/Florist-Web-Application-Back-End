@@ -16,7 +16,7 @@ class CustomerFactoryTest {
 
     @Test
     void buildCustomer() {
-        customerA = CustomerFactory.buildCustomer(1, "Jake", "Long"
+        customerA = CustomerFactory.buildCustomer("Jake", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         assertNotNull(customerA);
@@ -25,7 +25,7 @@ class CustomerFactoryTest {
 
     @Test
     void buildCustomerFail() {
-        customerB = CustomerFactory.buildCustomer(1, "", "Long"
+        customerB = CustomerFactory.buildCustomer("", "Long"
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         assertNotNull(customerB);
