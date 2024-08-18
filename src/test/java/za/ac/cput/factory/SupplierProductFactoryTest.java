@@ -23,7 +23,7 @@ class SupplierProductFactoryTest {
         supplier = SupplierFactory.buildSupplier(1, "Jacks", "Toys"
                 , "JacksToys@gmail.com", "0677784626");
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
-        product = ProductFactory.buildProduct(1, "Jalapeno", "Red hot jalapeno"
+        product = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
                 , 50, imageUrl, 5, "Plant");
         supplierProductA = SupplierProductFactory.buildSupplierProduct(1, supplier, product
                 ,5, 30, LocalDate.of(2024, Month.JANUARY, 10));
@@ -36,7 +36,7 @@ class SupplierProductFactoryTest {
         supplier = SupplierFactory.buildSupplier(1, "Jacks", "Toys"
                 , "JacksToys@gmail.com", "0677784626");
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
-        product = ProductFactory.buildProduct(1, "Jalapeno", "Red hot jalapeno"
+        product = ProductFactory.buildProduct("Jalapeno", "Red hot jalapeno"
                 , 50, imageUrl, 5, "Plant");
         supplierProductB = SupplierProductFactory.buildSupplierProduct(1, supplier, product
                 ,0, 30, LocalDate.of(2024, Month.JANUARY, 10));

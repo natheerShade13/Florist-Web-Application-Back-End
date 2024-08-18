@@ -41,7 +41,7 @@ class ReviewServiceTest {
                 , "jake.long@gmail.com", "jakeLong", "0677784626"
                 , LocalDate.of(2000, Month.JANUARY, 1));
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
-        product = ProductFactory.buildProduct(1, "Jalapeno", "Red hot jalapeno"
+        product = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
                 , 50, imageUrl, 5, "Plant");
         review = ReviewFactory.buildReview(1, "These Jalapenos are good"
                 , LocalDate.of(2024, Month.JUNE, 15), product, customer);
