@@ -17,7 +17,9 @@ class ProductServiceTest {
 
     private static Product product;
 
-    @BeforeEach
+//    @BeforeEach
+    @Test
+    @Order(0)
     void setUp() {
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
         product = ProductFactory.buildProduct("Jalapeno", "Red hot jalapeno", 50, imageUrl, 5, "Plant");
