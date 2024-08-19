@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 //IsValidImageURL needs to be checked;
 //Use only 1 Helper class for everything;
 //Change method names;
-//Only price that can be zero is orders due to a coupon;
+//Only price that can be zero is orders due to a coupon, product currently allows cost be zero which is wrong;
 //Only products in stock can be zero;
 
 public class CustomerHelper {
