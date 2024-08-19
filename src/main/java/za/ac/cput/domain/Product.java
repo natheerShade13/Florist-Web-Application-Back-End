@@ -48,6 +48,7 @@ public class Product {
     protected Product() {}
 
     private Product(Builder builder) {
+        this.productId = builder.productId;
         this.name = builder.name;
         this.description = builder.description;
         this.price = builder.price;
@@ -118,12 +119,18 @@ public class Product {
 
     public static class Builder {
 
+        private long productId;
         private String name;
         private String description;
         private double price;
         private String imageUrl;
         private int stockQuantity;
         private String category;
+
+        public Builder setProductId(long productId) {
+            this.productId = productId;
+            return this;
+        }
 
         public Builder setName(String name) {
             this.name = name;
@@ -156,6 +163,7 @@ public class Product {
         }
 
         public Builder copy(Product product) {
+            this.productId = product.productId;
             this.name = product.name;
             this.description = product.description;
             this.price = product.price;

@@ -47,9 +47,9 @@ class ProductServiceTest {
     @Test
     @Order(3)
     void update() {
-        Product createdProduct = productService.create(product);
+        //Product createdProduct = productService.create(product);
         Product updatedProduct = new Product.Builder()
-                .copy(createdProduct)
+                .copy(product)
                 .setDescription("Yellow hot jalapeno")
                 .build();
         Product updatedProductResult = productService.update(updatedProduct);
