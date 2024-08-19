@@ -10,7 +10,7 @@ public class ProductFactory {
                                        String imageURL, int stockQuantity, String category) {
         if(ProductHelper.isNullOrEmpty(name) ||
                 ProductHelper.isNullOrEmpty(description) || ProductHelper.isNegative(price) ||
-                ProductHelper.isNullOrEmpty(imageURL) || ProductHelper.isNegative(stockQuantity) ||
+                !ProductHelper.isValidImageUrl(imageURL) || ProductHelper.isNegative(stockQuantity) ||
                 ProductHelper.isNullOrEmpty(category)) {
             return null;
         }

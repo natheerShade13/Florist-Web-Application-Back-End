@@ -22,7 +22,7 @@ class SupplierFactoryTest {
     @Test
     void buildSupplierFail() {
         supplierB = SupplierFactory.buildSupplier(1, "Jacks", "Toys"
-                , "JacksToys", "0677784626");
+                , "JacksToys", "06777844626");
         assertNotNull(supplierB);
         System.out.println(supplierB);
     }
