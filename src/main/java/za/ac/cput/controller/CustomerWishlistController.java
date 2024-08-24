@@ -6,11 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Product;
 import za.ac.cput.api.CustomerWishlist;
+import za.ac.cput.domain.WishlistProduct;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/wishlist")
+@RequestMapping("/wishlist")
 public class CustomerWishlistController {
 
     private final CustomerWishlist customerWishlist;
@@ -21,17 +22,17 @@ public class CustomerWishlistController {
     }
 
     // Add a product to a customer's wishlist
-    @PostMapping("/{wishlistId}/addProduct/{productId}")
-    public ResponseEntity<String> addProductToWishlist(@PathVariable long wishlistId, @PathVariable long productId) {
-        customerWishlist.addProductToWishlist(wishlistId, productId);
-        return new ResponseEntity<>("Product added to wishlist successfully", HttpStatus.OK);
+    @PostMapping("/{customerId}/addProduct")
+    public ResponseEntity<WishlistProduct> addProductToWishlist(@PathVariable long customerId, @RequestBody Product product) {
+        WishlistProduct wishlistProduct = customerWishlist.addProductToWishlist(customerId, product);
+        return new ResponseEntity<>(wishlistProduct, HttpStatus.CREATED);
     }
 
     // Remove a product from a customer's wishlist
     @DeleteMapping("/{wishlistId}/removeProduct/{productId}")
-    public ResponseEntity<String> removeProductFromWishlist(@PathVariable long wishlistId, @PathVariable long productId) {
-        customerWishlist.removeProductFromWishlist(wishlistId, productId);
-        return new ResponseEntity<>("Product removed from wishlist successfully", HttpStatus.OK);
+    public ResponseEntity<Boolean> removeProductFromWishlist(@PathVariable long wishlistId, @PathVariable long productId) {
+        boolean removeWishlistProduct = customerWishlist.removeProductFromWishlist(wishlistId, productId);
+        return new ResponseEntity<>(removeWishlistProduct, HttpStatus.OK);
     }
 
     // Get all products in a customer's wishlist

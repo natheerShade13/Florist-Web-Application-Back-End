@@ -44,27 +44,31 @@ public class CustomerWishlist {
         this.customerService = customerService;
     }
 
-    public void addProductToWishlist(long wishlistId, long productId) {
-        Wishlist wishlist = wishlistService.read(wishlistId);
-        Product product = productService.read(productId);
+    public WishlistProduct addProductToWishlist(long customerId, Product product) {
+        Customer customer = customerService.read(customerId);
+        Wishlist wishlist = wishlistRepository.findByCustomer(customer)
+                .orElseThrow(() -> new RuntimeException("Wishlist not found"));
+        Product productFind = productService.read(product.getProductId());
 
         WishlistProduct wishlistProduct = new WishlistProduct.Builder()
                 .setWishlistProductId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE)
                 .setWishlist(wishlist)
-                .setProduct(product)
+                .setProduct(productFind)
                 .build();
 
-        wishlistProductService.create(wishlistProduct);
+        return wishlistProductService.create(wishlistProduct);
     }
 
-    public void removeProductFromWishlist(long wishlistId, long productId) {
-        Wishlist wishlist = wishlistService.read(wishlistId);
+    public boolean removeProductFromWishlist(long customerId, long productId) {
+        Customer customer = customerService.read(customerId);
+        Wishlist wishlist = wishlistRepository.findByCustomer(customer)
+                .orElseThrow(() -> new RuntimeException("Wishlist not found"));
         Product product = productService.read(productId);
 
         WishlistProduct wishlistProduct = wishlistProductRepository.findByWishlistAndProduct(wishlist, product)
                 .orElseThrow(() -> new RuntimeException("Product not found in wishlist"));
 
-        wishlistProductService.delete(wishlistProduct.getWishlistProductId());
+        return wishlistProductService.delete(wishlistProduct.getWishlistProductId());
     }
 
     public List<Product> getProductsInCustomerWishlist(long customerId) {
