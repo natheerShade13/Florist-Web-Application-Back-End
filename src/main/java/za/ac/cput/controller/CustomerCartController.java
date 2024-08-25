@@ -32,4 +32,10 @@ public class CustomerCartController {
         return new ResponseEntity<>(cartProduct, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/delete/customerId/{customerId}/productId/{productId}")
+    public ResponseEntity<Boolean> deleteProductFromCart(@PathVariable long customerId, @PathVariable long productId){
+        boolean cartProduct = customerCart.removeProductFromCart(customerId, productId);
+        return new ResponseEntity<>(cartProduct, HttpStatus.OK);
+    }
+
 }

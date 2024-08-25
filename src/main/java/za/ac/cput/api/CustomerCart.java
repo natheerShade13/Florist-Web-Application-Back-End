@@ -61,4 +61,25 @@ public class CustomerCart {
         return cartProductService.create(cartProduct);
     }
 
+    public boolean removeProductFromCart(long customerId, long productId) {
+        Cart cart = cartRepository.findByCustomer_CustomerId(customerId);
+        //Product product = productService.read(productId);
+        CartProduct cartProduct =cartProductRepository.findByCart_CartIdAndProduct_ProductId(cart.getCartId(), productId);
+
+        if (cartProduct != null) {
+            int quantity = cartProduct.getQuantity();
+
+            if(quantity > 1){
+                quantity--;
+                CartProduct newCartProduct = new CartProduct.Builder().copy(cartProduct).setQuantity(quantity).build();
+                cartProductService.update(newCartProduct);
+                return true;
+            }else {
+                cartProductService.delete(cartProduct.getCartProductId());
+                return false;
+            }
+        }
+        return false;
+    }
+
 }
