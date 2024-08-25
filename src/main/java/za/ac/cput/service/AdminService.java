@@ -26,6 +26,10 @@ public class AdminService implements IService<Admin, Long> {
         return adminRepository.save(admin);
     }
 
+    public Optional<Admin> getAdminByEmail(String email) {
+        return adminRepository.findByEmail(email);
+    }
+
     @Override
     public Admin read(Long id) {
         return adminRepository.findById(id).orElseThrow(() -> new IllegalStateException("Admin with Id " + id + " does not exist"));
@@ -53,11 +57,6 @@ public class AdminService implements IService<Admin, Long> {
     @Override
     public List<Admin> getAll() {
         return adminRepository.findAll();
-    }
-
-    public Admin getAdmin(String email) {
-        return adminRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalStateException("Admin with email " + email + " does not exist"));
     }
 
     public boolean verifyLogin(String email, String password) {
