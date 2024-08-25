@@ -59,11 +59,6 @@ public class AdminService implements IService<Admin, Long> {
         return adminRepository.findAll();
     }
 
-    public Admin getAdmin(String email) {
-        return adminRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalStateException("Admin with email " + email + " does not exist"));
-    }
-
     public boolean verifyLogin(String email, String password) {
         Optional<Admin> admin = adminRepository.findByEmail(email);
         return admin.isPresent() && admin.get().getPassword().equals(password);
