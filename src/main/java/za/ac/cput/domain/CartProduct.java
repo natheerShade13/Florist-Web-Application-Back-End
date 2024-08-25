@@ -2,10 +2,11 @@ package za.ac.cput.domain;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class CartProduct {
+public class CartProduct implements Serializable {
 
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +14,7 @@ public class CartProduct {
     @ManyToOne
     @JoinColumn(name = "CART_ID")
     private Cart cart;
-    @ManyToOne
+    @ManyToOne() //cascade = CascadeType.ALL
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
     private int quantity;

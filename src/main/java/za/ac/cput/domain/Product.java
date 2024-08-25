@@ -1,12 +1,14 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "products")
-public class Product {
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

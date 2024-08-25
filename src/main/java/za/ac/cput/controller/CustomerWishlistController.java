@@ -29,9 +29,9 @@ public class CustomerWishlistController {
     }
 
     // Remove a product from a customer's wishlist
-    @DeleteMapping("/{wishlistId}/removeProduct/{productId}")
-    public ResponseEntity<Boolean> removeProductFromWishlist(@PathVariable long wishlistId, @PathVariable long productId) {
-        boolean removeWishlistProduct = customerWishlist.removeProductFromWishlist(wishlistId, productId);
+    @DeleteMapping("/{customerId}/removeProduct/{productId}")
+    public ResponseEntity<Boolean> removeProductFromWishlist(@PathVariable long customerId, @PathVariable long productId) {
+        boolean removeWishlistProduct = customerWishlist.removeProductFromWishlist(customerId, productId);
         return new ResponseEntity<>(removeWishlistProduct, HttpStatus.OK);
     }
 

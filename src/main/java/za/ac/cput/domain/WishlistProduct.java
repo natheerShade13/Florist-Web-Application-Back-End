@@ -5,10 +5,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class WishlistProduct {
+public class WishlistProduct implements Serializable {
 
     @Id
     private long wishlistProductId;

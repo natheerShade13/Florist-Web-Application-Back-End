@@ -2,6 +2,7 @@ package za.ac.cput.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.Customer;
 import za.ac.cput.domain.Wishlist;
@@ -25,6 +26,7 @@ public class CustomerRegistration {
         this.wishlistService = wishlistService;
     }
 
+    @Transactional
     public Customer registerCustomer(Customer customer) {
         Customer customerNew = customerService.create(customer);
         Cart cart = CartFactory.buildCart(customerNew);

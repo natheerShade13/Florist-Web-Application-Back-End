@@ -14,10 +14,10 @@ public class Cart implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long cartId;
     private LocalDate dateCreated;
-    @OneToOne
+    @OneToOne() //cascade = CascadeType.ALL
     @JoinColumn(name = "CUS_ID")
     private Customer customer;
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart") //cascade = CascadeType.ALL
     private List<CartProduct> cartProducts;
 
     protected Cart(){}
