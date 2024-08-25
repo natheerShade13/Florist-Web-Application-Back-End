@@ -2,8 +2,10 @@ package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import javax.annotation.PostConstruct;
 import za.ac.cput.domain.Admin;
 import za.ac.cput.repository.AdminRepository;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +19,20 @@ public class AdminService implements IService<Admin, Long> {
         this.adminRepository = adminRepository;
     }
 
+    @PostConstruct
+    public void initDefaultAdmin() {
+        // Check if the default admin exists
+        Optional<Admin> existingAdmin = adminRepository.findByEmail("admin@florist.com");
+        if (existingAdmin.isEmpty()) {
+            Admin defaultAdmin = new Admin.Builder()
+                    .setEmail("admin@florist.com")
+                    .setPassword("admin") // Replace with hashed password in a real app
+                    .setRole("ADMIN")
+                    .build();
+            adminRepository.save(defaultAdmin);
+        }
+    }
+
     @Override
     public Admin create(Admin admin) {
         Optional<Admin> existingAdmin = adminRepository.findByEmail(admin.getEmail());
@@ -28,7 +44,8 @@ public class AdminService implements IService<Admin, Long> {
 
     @Override
     public Admin read(Long id) {
-        return adminRepository.findById(id).orElseThrow(() -> new IllegalStateException("Admin with Id " + id + " does not exist"));
+        return adminRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Admin with Id " + id + " does not exist"));
     }
 
     @Override
