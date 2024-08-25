@@ -6,4 +6,5 @@ import za.ac.cput.domain.Cart;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
+    Cart findByCustomer_CustomerId(Long customerId);
 }

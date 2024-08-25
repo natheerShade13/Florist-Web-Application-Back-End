@@ -23,21 +23,18 @@ import java.util.stream.Collectors;
 public class CustomerWishlist {
 
     private final WishlistRepository wishlistRepository;
-    private final ProductRepository productRepository;
     private final WishlistProductRepository wishlistProductRepository;
-    private final CustomerRepository customerRepository;
     private final WishlistProductService wishlistProductService;
     private final WishlistService wishlistService;
     private final ProductService productService;
     private final CustomerService customerService;
 
     @Autowired
-    public CustomerWishlist(WishlistRepository wishlistRepository, ProductRepository productRepository,
-                            WishlistProductRepository wishlistProductRepository, CustomerRepository customerRepository, WishlistProductService wishlistProductService, WishlistService wishlistService, ProductService productService, CustomerService customerService) {
+    public CustomerWishlist(WishlistRepository wishlistRepository,WishlistProductRepository wishlistProductRepository,
+                            WishlistProductService wishlistProductService, WishlistService wishlistService,
+                            ProductService productService, CustomerService customerService) {
         this.wishlistRepository = wishlistRepository;
-        this.productRepository = productRepository;
         this.wishlistProductRepository = wishlistProductRepository;
-        this.customerRepository = customerRepository;
         this.wishlistProductService = wishlistProductService;
         this.wishlistService = wishlistService;
         this.productService = productService;
