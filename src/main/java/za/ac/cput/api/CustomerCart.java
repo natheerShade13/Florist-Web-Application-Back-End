@@ -17,19 +17,15 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerCart {
 
-    private final CartProductRepository productRepository;
     private final CartRepository cartRepository;
-    private final CustomerService customerService;
     private final CartProductRepository cartProductRepository;
     private final CartProductService cartProductService;
     private final ProductService productService;
 
     @Autowired
-    public CustomerCart(CartProductRepository productRepository, CartRepository cartRepository, CustomerService customerService
-            , CartProductRepository cartProductRepository, CartProductService cartProductService, ProductService productService) {
-        this.productRepository = productRepository;
+    public CustomerCart(CartRepository cartRepository, CartProductRepository cartProductRepository
+            , CartProductService cartProductService, ProductService productService) {
         this.cartRepository = cartRepository;
-        this.customerService = customerService;
         this.cartProductRepository = cartProductRepository;
         this.cartProductService = cartProductService;
         this.productService = productService;
@@ -51,7 +47,6 @@ public class CustomerCart {
             return cartProductService.update(updateCartProduct);
         } else {
                    cartProduct = new CartProduct.Builder()
-                    .setCartProductId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE)
                     .setCart(cart)
                     .setProduct(product)
                     .setQuantity(1)

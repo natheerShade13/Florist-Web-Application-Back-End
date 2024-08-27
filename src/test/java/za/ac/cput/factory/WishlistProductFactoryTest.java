@@ -29,7 +29,7 @@ class WishlistProductFactoryTest {
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
         product = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
                 , 50, imageUrl, 5, "Plant");
-        wishlistProductA = WishlistProductFactory.buildWishlistProduct(1, wishlist, product);
+        wishlistProductA = WishlistProductFactory.buildWishlistProduct(wishlist, product);
         assertNotNull(wishlistProductA);
         System.out.println(wishlistProductA);
     }
@@ -43,7 +43,7 @@ class WishlistProductFactoryTest {
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
         product = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
                 , 50, imageUrl, 5, "Plant");
-        wishlistProductB = WishlistProductFactory.buildWishlistProduct(1, wishlist = null, product);
+        wishlistProductB = WishlistProductFactory.buildWishlistProduct(wishlist = null, product);
         assertNotNull(wishlistProductB);
         System.out.println(wishlistProductB);
     }

@@ -25,18 +25,15 @@ public class CustomerWishlist {
     private final WishlistRepository wishlistRepository;
     private final WishlistProductRepository wishlistProductRepository;
     private final WishlistProductService wishlistProductService;
-    private final WishlistService wishlistService;
     private final ProductService productService;
     private final CustomerService customerService;
 
     @Autowired
-    public CustomerWishlist(WishlistRepository wishlistRepository,WishlistProductRepository wishlistProductRepository,
-                            WishlistProductService wishlistProductService, WishlistService wishlistService,
-                            ProductService productService, CustomerService customerService) {
+    public CustomerWishlist(WishlistRepository wishlistRepository,WishlistProductRepository wishlistProductRepository
+            , WishlistProductService wishlistProductService, ProductService productService, CustomerService customerService) {
         this.wishlistRepository = wishlistRepository;
         this.wishlistProductRepository = wishlistProductRepository;
         this.wishlistProductService = wishlistProductService;
-        this.wishlistService = wishlistService;
         this.productService = productService;
         this.customerService = customerService;
     }
@@ -48,7 +45,6 @@ public class CustomerWishlist {
         Product productFind = productService.read(product.getProductId());
 
         WishlistProduct wishlistProduct = new WishlistProduct.Builder()
-                .setWishlistProductId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE)
                 .setWishlist(wishlist)
                 .setProduct(productFind)
                 .build();
