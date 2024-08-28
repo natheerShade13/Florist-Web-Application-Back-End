@@ -25,8 +25,14 @@ class CartProductFactoryTest {
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
         product = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
                 , 50, imageUrl, 5, "Plant");
-        cartProductA = CartProductFactory.buildCartProduct(1, cart, product, 5, 50);
+        cartProductA = CartProductFactory.buildCartProduct(cart, product, 5, 50);
+
+        // Test if cartProductA is not null
         assertNotNull(cartProductA);
+
+        // Test if total price is calculated correctly (quantity * unitPrice)
+        assertEquals(250, cartProductA.getTotalPrice());
+
         System.out.println(cartProductA);
     }
 
@@ -39,9 +45,10 @@ class CartProductFactoryTest {
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
         product = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
                 , 50, imageUrl, 5, "Plant");
-        cartProductB = CartProductFactory.buildCartProduct(1, cart, product, -1, 50);
-        assertNotNull(cartProductB);
+        cartProductB = CartProductFactory.buildCartProduct(cart, product, -1, 50);
+
+        // Test if cartProductB is null due to invalid quantity
+        assertNull(cartProductB);
         System.out.println(cartProductB);
     }
-
 }

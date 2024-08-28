@@ -7,14 +7,24 @@ import za.ac.cput.util.CartProductHelper;
 
 public class CartProductFactory {
 
-    public static CartProduct buildCartProduct(long cartProductId, Cart cart, Product product, int quantity
-            , double unitPrice){
-        if (CartProductHelper.validId(cartProductId) || cart == null || product == null
-                || CartProductHelper.isLessThanZero(quantity) || CartProductHelper.isNegative(unitPrice)){
+    public static CartProduct buildCartProduct(Cart cart, Product product, int quantity, double unitPrice) {
+        // Validation checks to ensure valid inputs
+        if (cart == null || product == null ||
+                CartProductHelper.isLessThanZero(quantity) ||
+                CartProductHelper.isNegative(unitPrice)) {
             return null;
         }
 
-        return new CartProduct.Builder().setCartProductId(cartProductId).setCart(cart).setProduct(product)
-                .setQuantity(quantity).setUnitPrice(unitPrice).build();
+        // Calculate total price
+        double totalPrice = quantity * unitPrice;
+
+        // Create CartProduct using the Builder pattern
+        return new CartProduct.Builder()
+                .setCart(cart)
+                .setProduct(product)
+                .setQuantity(quantity)
+                .setUnitPrice(unitPrice)
+                .setTotalPrice(totalPrice)  // Set the calculated total price
+                .build();
     }
 }

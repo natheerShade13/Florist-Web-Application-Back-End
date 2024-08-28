@@ -30,10 +30,15 @@ public class CartService implements IService<Cart, Long>{
 
     @Override
     public Cart update(Cart cart) {
-        if (cartRepository.existsById(cart.getCartId())){
+        if (cart == null) {
+            throw new IllegalArgumentException("Cart cannot be null");
+        }
+
+        Long cartId = cart.getCartId();
+        if (cartRepository.existsById(cartId)) {
             return cartRepository.save(cart);
         } else {
-            throw new IllegalStateException("Cart with ID " + cart.getCartId() + " does not exist");
+            throw new IllegalStateException("Cart with ID " + cartId + " does not exist");
         }
     }
 

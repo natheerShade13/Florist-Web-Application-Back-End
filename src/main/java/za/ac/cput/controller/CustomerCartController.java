@@ -27,15 +27,39 @@ public class CustomerCartController {
     }
 
     @PostMapping("/customerId/{customerId}/productId/{productId}")
-    public ResponseEntity<CartProduct> addProductToCart(@PathVariable long customerId, @PathVariable long productId) {
-        CartProduct cartProduct  = customerCart.addProductToCart(customerId, productId);
-        return new ResponseEntity<>(cartProduct, HttpStatus.CREATED);
+    public ResponseEntity<?> addProductToCart(@PathVariable long customerId, @PathVariable long productId) {
+        try {
+            CartProduct cartProduct = customerCart.addProductToCart(customerId, productId);
+            return new ResponseEntity<>(cartProduct, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/delete/customerId/{customerId}/productId/{productId}")
-    public ResponseEntity<Boolean> deleteProductFromCart(@PathVariable long customerId, @PathVariable long productId){
-        boolean cartProduct = customerCart.removeProductFromCart(customerId, productId);
-        return new ResponseEntity<>(cartProduct, HttpStatus.OK);
+    public ResponseEntity<?> deleteProductFromCart(@PathVariable long customerId, @PathVariable long productId) {
+        try {
+            boolean cartProduct = customerCart.removeProductFromCart(customerId, productId);
+            return new ResponseEntity<>(cartProduct, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
+    // ErrorResponse class
+    public class ErrorResponse {
+        private String message;
+
+        public ErrorResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
 }

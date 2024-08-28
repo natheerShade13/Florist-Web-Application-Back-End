@@ -43,9 +43,8 @@ class CartProductServiceTest {
                 , LocalDate.of(2000, Month.JANUARY, 1));
         cart = CartFactory.buildCart(customer);
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
-        product = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
-                , 50, imageUrl, 5, "Plant");
-        cartProduct = CartProductFactory.buildCartProduct(1, cart, product, 5, 50);
+        product = ProductFactory.buildProduct("Jalapeno", "Red hot jalapeno", 50, imageUrl, 5, "Plant");
+        cartProduct = CartProductFactory.buildCartProduct(cart, product, 5, 50);
     }
 
     @Test
@@ -54,16 +53,19 @@ class CartProductServiceTest {
         Customer createCustomer = customerService.create(customer);
         assertNotNull(createCustomer);
         System.out.println(createCustomer);
-        //cart = CartFactory.buildCart(createCustomer);
+
         Cart newCart = cartService.create(cart);
         assertNotNull(newCart);
         System.out.println(newCart);
+
         Product createProduct = productService.create(product);
         assertNotNull(createProduct);
         System.out.println(createProduct);
-        //cartProduct = CartProductFactory.buildCartProduct(1, cart, createProduct, 5, 50);
+
         CartProduct createCartProduct = cartProductService.create(cartProduct);
         assertNotNull(createCartProduct);
+        // Assert that the total price is calculated correctly
+        assertEquals(cartProduct.getQuantity() * cartProduct.getUnitPrice(), createCartProduct.getTotalPrice());
         System.out.println(createCartProduct);
     }
 
@@ -72,7 +74,9 @@ class CartProductServiceTest {
     void read() {
         CartProduct findCartProduct = cartProductService.read(cartProduct.getCartProductId());
         assertNotNull(findCartProduct);
-        System.out.println(cartProduct);
+        // Assert that the total price is correct when read
+        assertEquals(cartProduct.getTotalPrice(), findCartProduct.getTotalPrice());
+        System.out.println(findCartProduct);
     }
 
     @Test
@@ -80,14 +84,17 @@ class CartProductServiceTest {
     void update() {
         CartProduct newCartProduct = new CartProduct.Builder().copy(cartProduct).setQuantity(2).build();
         assertNotNull(newCartProduct);
+
         CartProduct updatedCartProduct = cartProductService.update(newCartProduct);
         assertNotNull(updatedCartProduct);
+        // Assert that the total price is updated correctly
+        assertEquals(newCartProduct.getQuantity() * newCartProduct.getUnitPrice(), updatedCartProduct.getTotalPrice());
         System.out.println(updatedCartProduct);
     }
 
     @Test
     @Order(5)
-    //@Disabled
+        //@Disabled
     void delete() {
         boolean deleteCartProduct = cartProductService.delete(cartProduct.getCartProductId());
         assertTrue(deleteCartProduct);

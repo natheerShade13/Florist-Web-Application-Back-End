@@ -8,48 +8,66 @@ import za.ac.cput.repository.CartProductRepository;
 import java.util.List;
 
 @Service
-public class CartProductService implements IService<CartProduct, Long>{
+public class CartProductService implements IService<CartProduct, Long> {
 
-    @Autowired
     private final CartProductRepository cartProductRepository;
 
+    @Autowired
     public CartProductService(CartProductRepository cartProductRepository) {
         this.cartProductRepository = cartProductRepository;
     }
 
     @Override
-    public CartProduct create(CartProduct cartProduct) {
-        return cartProductRepository.save(cartProduct);
+    public CartProduct read(Long id) {
+        return cartProductRepository.findById(id).orElse(null);
     }
 
     @Override
-    public CartProduct read(Long aLong) {
-        return cartProductRepository.findById(aLong).orElseThrow(() -> new IllegalStateException(
-                "CartProduct with" + " id " + aLong + " does not exist"));
+    public CartProduct create(CartProduct cartProduct) {
+        if (cartProduct == null) {
+            throw new IllegalArgumentException("CartProduct must not be null");
+        }
+
+        if (cartProduct.getQuantity() < 0 || cartProduct.getUnitPrice() < 0) {
+            throw new IllegalArgumentException("Quantity and unitPrice must be non-negative");
+        }
+
+        // Calculate the total price
+        double totalPrice = cartProduct.getQuantity() * cartProduct.getUnitPrice();
+        cartProduct.setTotalPrice(totalPrice);
+
+        // Save the CartProduct entity
+        try {
+            return cartProductRepository.save(cartProduct);
+        } catch (Exception e) {
+            // Log the exception or handle it as necessary
+            throw new RuntimeException("Failed to create CartProduct", e);
+        }
     }
 
     @Override
     public CartProduct update(CartProduct cartProduct) {
-        if (cartProductRepository.existsById(cartProduct.getCartProductId())){
+        if (cartProductRepository.existsById(cartProduct.getCartProductId())) {
             return cartProductRepository.save(cartProduct);
-        } else {
-            throw new IllegalStateException("CartProduct with id " + cartProduct.getCartProductId()
-                    + " does not exist");
         }
+        return null;
     }
 
     @Override
-    public boolean delete(Long d) {
-        if (cartProductRepository.existsById(d)){
-            cartProductRepository.deleteById(d);
+    public boolean delete(Long id) {
+        if (cartProductRepository.existsById(id)) {
+            cartProductRepository.deleteById(id);
             return true;
-        } else {
-            throw new IllegalStateException("CartProduct with id " + d + " does not exist");
         }
+        return false;
     }
 
     @Override
     public List<CartProduct> getAll() {
         return cartProductRepository.findAll();
+    }
+
+    public List<CartProduct> getCartProductsByCart(long cartId) {
+        return cartProductRepository.findByCart_CartId(cartId);
     }
 }
