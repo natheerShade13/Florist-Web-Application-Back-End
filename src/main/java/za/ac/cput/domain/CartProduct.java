@@ -9,7 +9,7 @@ import java.util.Objects;
 public class CartProduct implements Serializable {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long cartProductId;
     @ManyToOne
     @JoinColumn(name = "CART_ID")
