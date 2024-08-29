@@ -13,7 +13,7 @@ class ProductFactoryTest {
     @Test
     void buildProduct() {
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
-        productA = ProductFactory.buildProduct(1, "Jalapeno", "Red hot jalapeno"
+        productA = ProductFactory.buildProduct("Jalapeno", "Red hot jalapeno"
                 , 50, imageUrl, 5, "Plant");
         assertNotNull(productA);
         System.out.println(productA);
@@ -22,7 +22,7 @@ class ProductFactoryTest {
     @Test
     void buildProductFail() {
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
-        productB = ProductFactory.buildProduct(1, "Jalapeno", "Red hot jalapeno"
+        productB = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
                 , 0, imageUrl, 5, "Plant");
         assertNotNull(productB);
         System.out.println(productB);

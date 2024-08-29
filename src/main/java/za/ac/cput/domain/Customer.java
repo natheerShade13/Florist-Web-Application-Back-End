@@ -43,6 +43,8 @@ public class Customer implements Serializable {
     private List<Orders> orders;
     @OneToMany(mappedBy = "customer")
     private List<Review> reviews;
+    @OneToOne(mappedBy = "customer") //fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true
+    private Cart cart;
 
     protected Customer(){}
 

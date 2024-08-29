@@ -17,52 +17,61 @@ class ProductServiceTest {
 
     private static Product product;
 
+//    @BeforeEach
     @Test
     @Order(0)
     void setUp() {
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
-        product = ProductFactory.buildProduct(1, "Jalapeno", "Red hot jalapeno"
-                , 50, imageUrl, 5, "Plant");
+        product = ProductFactory.buildProduct("Jalapeno", "Red hot jalapeno", 50, imageUrl, 5, "Plant");
     }
 
     @Test
     @Order(1)
     void create() {
-        Product createProduct = productService.create(product);
-        assertNotNull(createProduct);
-        System.out.println(createProduct);
+        Product createdProduct = productService.create(product);
+        assertNotNull(createdProduct);
+        assertEquals("Jalapeno", createdProduct.getName());
+        System.out.println(createdProduct);
     }
 
     @Test
     @Order(2)
     void read() {
-        Product findProduct = productService.read(product.getProductId());
-        assertNotNull(findProduct);
-        System.out.println(findProduct);
+        Product createdProduct = productService.create(product);
+        Product foundProduct = productService.read(createdProduct.getProductId());
+        assertNotNull(foundProduct);
+        assertEquals(createdProduct.getProductId(), foundProduct.getProductId());
+        System.out.println(foundProduct);
     }
 
     @Test
     @Order(3)
     void update() {
-        Product newProduct = new Product.Builder().copy(product).setDescription("Yellow hot jalapeno").build();
-        assertNotNull(newProduct);
-        System.out.println(newProduct);
-        Product updateProduct = productService.update(newProduct);
-        assertNotNull(updateProduct);
-        System.out.println(updateProduct);
-    }
-
-    @Test
-    @Order(5)
-    void delete() {
-        boolean deleteProduct = productService.delete(product.getProductId());
-        assertTrue(deleteProduct);
-        System.out.println(deleteProduct);
+        //Product createdProduct = productService.create(product);
+        Product updatedProduct = new Product.Builder()
+                .copy(product)
+                .setDescription("Yellow hot jalapeno")
+                .build();
+        Product updatedProductResult = productService.update(updatedProduct);
+        assertNotNull(updatedProductResult);
+        assertEquals("Yellow hot jalapeno", updatedProductResult.getDescription());
+        System.out.println(updatedProductResult);
     }
 
     @Test
     @Order(4)
+    void delete() {
+        Product createdProduct = productService.create(product);
+        boolean deleteProductResult = productService.delete(createdProduct.getProductId());
+        assertTrue(deleteProductResult);
+        System.out.println("Product deleted: " + deleteProductResult);
+    }
+
+    @Test
+    @Order(5)
     void getAll() {
+        productService.create(product);
+        assertFalse(productService.getAll().isEmpty());
         System.out.println(productService.getAll());
     }
 }

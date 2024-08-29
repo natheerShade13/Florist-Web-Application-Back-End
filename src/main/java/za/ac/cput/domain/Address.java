@@ -2,10 +2,11 @@ package za.ac.cput.domain;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Address {
+public class Address implements Serializable {
 
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -85,12 +85,12 @@ public class CustomerService implements IService<Customer, Long>{
     }
 
     public Customer getCustomer(String email){
-
         return customerRepository.findByEmail(email);
     }
 
     public boolean verifyLogin(String email, String password){
         Optional<Customer> verifyCustomer = customerRepository.findByEmailAndPassword(email, password);
+        //verifyCustomer.get(); gets the customer object
 
         return verifyCustomer.isPresent();
     }

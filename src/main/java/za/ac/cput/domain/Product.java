@@ -2,36 +2,54 @@ package za.ac.cput.domain;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Product {
+@Table(name = "products")
+public class Product implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "product_id")
     private long productId;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private double price;
+
     private String imageUrl;
+
+    @Column(nullable = false)
     private int stockQuantity;
-    //@ManyToOne
-    //@JoinColumn(name = "CATEGORY_ID")
+
+    @Column(nullable = false)
     private String category;
+
     @OneToMany(mappedBy = "product")
     private List<OrderLine> orderLines;
-    @OneToMany(mappedBy = "product" /*, cascade = CascadeType.PERSIST*/)
+
+    @OneToMany(mappedBy = "product")
     private List<SupplierProduct> supplierProducts;
+
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
+
     @OneToMany(mappedBy = "product")
     private List<CartProduct> cartProducts;
+
     @OneToMany(mappedBy = "product")
     private List<WishlistProduct> wishlists;
 
-    protected Product(){}
+    protected Product() {}
 
-    private Product(Builder builder){
+    private Product(Builder builder) {
         this.productId = builder.productId;
         this.name = builder.name;
         this.description = builder.description;
@@ -74,7 +92,13 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return productId == product.productId && Double.compare(price, product.price) == 0 && stockQuantity == product.stockQuantity && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(imageUrl, product.imageUrl) && Objects.equals(category, product.category);
+        return productId == product.productId &&
+                Double.compare(product.price, price) == 0 &&
+                stockQuantity == product.stockQuantity &&
+                Objects.equals(name, product.name) &&
+                Objects.equals(description, product.description) &&
+                Objects.equals(imageUrl, product.imageUrl) &&
+                Objects.equals(category, product.category);
     }
 
     @Override
@@ -90,12 +114,12 @@ public class Product {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", stockQuantity=" + stockQuantity +
-                ", category='" + category + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 
-    public static class Builder{
+    public static class Builder {
 
         private long productId;
         private String name;
@@ -149,13 +173,10 @@ public class Product {
             this.imageUrl = product.imageUrl;
             this.category = product.category;
             return this;
-
         }
 
         public Product build() {
             return new Product(this);
         }
-
     }
-
 }
