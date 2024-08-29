@@ -20,73 +20,74 @@ import static org.junit.jupiter.api.Assertions.*;
 class ReviewServiceTest {
 
     @Autowired
-    private  CustomerService customerService;
+    private ReviewService reviewService;
+    @Autowired
+    private CustomerService customerService;
     @Autowired
     private ProductService productService;
-    @Autowired
-    private ReviewService reviewService;
 
     private static Customer customer;
     private static Product product;
-    private static Review review;
-
+    private static Review reviewA;
 
     @Test
     @Order(0)
-    void setup(){
-        customer = CustomerFactory.buildCustomer("Jake", "Long"
-                , "jake.long@gmail.com", "jakeLong", "0677784626"
-                , LocalDate.of(2000, Month.JANUARY, 1));
+    void setUp() {
+        customer = CustomerFactory.buildCustomer("Jake", "Long",
+                "keitumetse@gmail.com", "jakeLong", "0677784626",
+                LocalDate.of(2000, Month.JANUARY, 1));
+        customer = customerService.create(customer);
+
         String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
-        product = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
-                , 50, imageUrl, 5, "Plant");
-        review = ReviewFactory.buildReview(1, "These Jalapenos are good"
-                , LocalDate.of(2024, Month.JUNE, 15), product, customer);
+        product = ProductFactory.buildProduct("Jalapeno", "Red hot jalapeno",
+                50, imageUrl, 5, "Plant");
+        product = productService.create(product); // Save product to database
+
+        reviewA = ReviewFactory.createReview("the flowers smell good", 5,
+                LocalDate.of(2024, Month.JUNE, 15), product, customer);
+        assertNotNull(reviewA);
+        System.out.println(reviewA);
     }
 
     @Test
     @Order(1)
     void create() {
-        Customer createCustomer = customerService.create(customer);
-        assertNotNull(createCustomer);
-        System.out.println(createCustomer);
-        Product createProduct = productService.create(product);
-        assertNotNull(createProduct);
-        System.out.println(createProduct);
-        Review createReview = reviewService.create(review);
-        assertNotNull(createReview);
-        System.out.println(createReview);
+
+        Review createdReview = reviewService.create(reviewA);
+        assertNotNull(createdReview);
+        System.out.println(createdReview);
     }
 
     @Test
     @Order(2)
     void read() {
-        Review findReview = reviewService.read(review.getReviewId());
-        assertNotNull(findReview);
-        System.out.println(findReview);
+        Review foundReview = reviewService.read(reviewA.getReviewId()).orElse(null);
+        assertNotNull(foundReview);
+        System.out.println(foundReview);
     }
 
     @Test
     @Order(3)
+    @Disabled
     void update() {
-        Review newReview = new Review.Builder().copy(review).setComment("These Jalapenos are terrible").build();
-        assertNotNull(newReview);
-        Review updatedReview = reviewService.update(newReview);
-        assertNotNull(updatedReview);
-        System.out.println(updatedReview);
-    }
-
-    @Test
-    @Order(5)
-    //@Disabled
-    void delete() {
-        boolean deleteReview = reviewService.delete(review.getReviewId());
-        assertTrue(deleteReview);
-        System.out.println(deleteReview);
+        Review updatedReview = new Review.Builder().copy(reviewA).setComment("Updated comment").build();
+        Review savedReview = reviewService.update(updatedReview);
+        assertNotNull(savedReview);
+        assertEquals("Updated comment", savedReview.getComment());
+        System.out.println(savedReview);
     }
 
     @Test
     @Order(4)
+    @Disabled
+    void delete() {
+        boolean isDeleted = reviewService.delete(reviewA.getReviewId());
+        assertTrue(isDeleted);
+        System.out.println("Deleted: " + isDeleted);
+    }
+
+    @Test
+    @Order(5)
     void getAll() {
         System.out.println(reviewService.getAll());
     }

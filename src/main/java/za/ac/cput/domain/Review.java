@@ -1,7 +1,6 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -9,15 +8,25 @@ import java.util.Objects;
 public class Review {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
     private long reviewId;
+
+    @Column(name = "comment")
     private String comment;
+
+    @Column(name = "review_date")
     private LocalDate reviewDate;
+
+    @Column(name = "rating")
+    private int rating;
+
     @ManyToOne
-    @JoinColumn(name = "PRODUCT_ID")
+    @JoinColumn(name = "PRODUCT_ID", nullable = false)
     private Product product;
+
     @ManyToOne
-    @JoinColumn(name = "CUS_ID")
+    @JoinColumn(name = "CUS_ID", nullable = false)
     private Customer customer;
 
     protected Review() {}
@@ -26,6 +35,7 @@ public class Review {
         this.reviewId = builder.reviewId;
         this.comment = builder.comment;
         this.reviewDate = builder.reviewDate;
+        this.rating = builder.rating;  // Initialize rating
         this.product = builder.product;
         this.customer = builder.customer;
     }
@@ -42,6 +52,10 @@ public class Review {
         return reviewDate;
     }
 
+    public int getRating() {  // Getter for rating
+        return rating;
+    }
+
     public Product getProduct() {
         return product;
     }
@@ -55,12 +69,17 @@ public class Review {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Review review = (Review) o;
-        return reviewId == review.reviewId && Objects.equals(comment, review.comment) && Objects.equals(reviewDate, review.reviewDate) && Objects.equals(product, review.product) && Objects.equals(customer, review.customer);
+        return reviewId == review.reviewId &&
+                rating == review.rating &&  // Compare rating
+                Objects.equals(comment, review.comment) &&
+                Objects.equals(reviewDate, review.reviewDate) &&
+                Objects.equals(product, review.product) &&
+                Objects.equals(customer, review.customer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reviewId, comment, reviewDate, product, customer);
+        return Objects.hash(reviewId, comment, reviewDate, rating, product, customer);  // Include rating in hash
     }
 
     @Override
@@ -69,16 +88,17 @@ public class Review {
                 "reviewId=" + reviewId +
                 ", comment='" + comment + '\'' +
                 ", reviewDate=" + reviewDate +
+                ", rating=" + rating +  // Include rating in toString
                 ", product=" + product +
                 ", customer=" + customer +
                 '}';
     }
 
-    // Builder class
     public static class Builder {
         private long reviewId;
         private String comment;
         private LocalDate reviewDate;
+        private int rating;  // Add rating to builder
         private Product product;
         private Customer customer;
 
@@ -97,6 +117,11 @@ public class Review {
             return this;
         }
 
+        public Builder setRating(int rating) {  // Setter for rating
+            this.rating = rating;
+            return this;
+        }
+
         public Builder setProduct(Product product) {
             this.product = product;
             return this;
@@ -111,6 +136,7 @@ public class Review {
             this.reviewId = review.reviewId;
             this.comment = review.comment;
             this.reviewDate = review.reviewDate;
+            this.rating = review.rating;  // Copy rating
             this.product = review.product;
             this.customer = review.customer;
             return this;
@@ -120,5 +146,4 @@ public class Review {
             return new Review(this);
         }
     }
-
 }

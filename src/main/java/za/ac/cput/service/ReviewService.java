@@ -6,49 +6,37 @@ import za.ac.cput.domain.Review;
 import za.ac.cput.repository.ReviewRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class ReviewService implements IService<Review, Long>{
+public class ReviewService {
 
     @Autowired
-    private final ReviewRepository reviewRepository;
+    private ReviewRepository reviewRepository;
 
-    public ReviewService(ReviewRepository reviewRepository) {
-        this.reviewRepository = reviewRepository;
-    }
-
-    @Override
     public Review create(Review review) {
         return reviewRepository.save(review);
     }
 
-    @Override
-    public Review read(Long aLong) {
-        return reviewRepository.findById(aLong).orElseThrow(() -> new IllegalStateException("Review with Id " +
-                aLong + " does not exist"));
+    public Optional<Review> read(long reviewId) {
+        return reviewRepository.findById(reviewId);
     }
 
-    @Override
     public Review update(Review review) {
-        if (reviewRepository.existsById(review.getReviewId())){
-            return reviewRepository.save(review);
-        } else {
-            throw new IllegalStateException("Review with Id " + review.getReviewId() + " does not exist");
-        }
+        return reviewRepository.save(review);
     }
 
-    @Override
-    public boolean delete(Long d) {
-        if (reviewRepository.existsById(d)){
-            reviewRepository.deleteById(d);
+    public boolean delete(long reviewId) {
+        if (reviewRepository.existsById(reviewId)) {
+            reviewRepository.deleteById(reviewId);
             return true;
-        } else {
-            throw new IllegalStateException("Review with Id " + d + " does not exist");
         }
+        return false;
     }
 
-    @Override
     public List<Review> getAll() {
         return reviewRepository.findAll();
     }
+
+
 }
