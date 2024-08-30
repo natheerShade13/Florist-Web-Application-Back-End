@@ -15,7 +15,7 @@ public class Wishlist implements Serializable {
     private long wishListId;
     private LocalDate dateCreated;
     @OneToOne
-    @JoinColumn(name = "CUS_ID")
+    @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
     @OneToMany(mappedBy = "wishlist")
     private List<WishlistProduct> wishlistProducts;

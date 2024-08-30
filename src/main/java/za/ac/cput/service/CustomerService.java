@@ -8,7 +8,6 @@ import za.ac.cput.repository.CustomerRepository;
 import java.util.List;
 import java.util.Optional;
 
-//Create API for calculating the (orders amount - coupon discount); Done
 //When using create, check for certain conditions like an email that already exists;
 //Delete method might need changing and getAll() might need to return a set;
 
