@@ -28,6 +28,12 @@ public class CustomerController {
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
+    @GetMapping("/update/{mobileNumber}")
+    public ResponseEntity<Customer> getCustomerByMobileNumber(@PathVariable String mobileNumber){
+        Customer customer = customerService.getCustomerByMobileNumber(mobileNumber);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+
     @GetMapping("/login/{email}/{password}")
     public ResponseEntity<Boolean> login(@PathVariable String email,
                                           @PathVariable String password){
