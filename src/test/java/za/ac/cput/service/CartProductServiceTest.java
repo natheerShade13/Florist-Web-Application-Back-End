@@ -3,6 +3,7 @@ package za.ac.cput.service;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.CartProduct;
 import za.ac.cput.domain.Customer;
@@ -14,89 +15,150 @@ import za.ac.cput.factory.ProductFactory;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Transactional
 class CartProductServiceTest {
 
     @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private CartService cartService;
-    @Autowired
-    private ProductService productService;
-    @Autowired
     private CartProductService cartProductService;
 
-    private static Customer customer;
-    private static Cart cart;
-    private static Product product;
-    private static CartProduct cartProduct;
+    @Autowired
+    private CartService cartService;
 
-    @Test
-    @Order(0)
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private ProductService productService;
+
+    private Customer customer;
+    private Cart cart;
+    private Product product;
+    private CartProduct cartProduct;
+
+    @BeforeEach
     void setUp() {
-        customer = CustomerFactory.buildCustomer("Jake", "Long"
-                , "jake.long@gmail.com", "jakeLong", "0677784626"
-                , LocalDate.of(2000, Month.JANUARY, 1));
+        String uniqueEmail = "jake.long" + System.currentTimeMillis() + "@gmail.com";
+        customer = CustomerFactory.buildCustomer("Jake", "Long",
+                uniqueEmail, "jakeLong", "0677784626",
+                LocalDate.of(2000, Month.JANUARY, 1));
+        customer = customerService.create(customer);
+        assertNotNull(customer, "Customer creation failed");
+
         cart = CartFactory.buildCart(customer);
-        String imageUrl = "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=";
-        product = ProductFactory.buildProduct( "Jalapeno", "Red hot jalapeno"
-                , 50, imageUrl, 5, "Plant");
-        cartProduct = CartProductFactory.buildCartProduct(cart, product, 5, 50);
+        cart = cartService.create(cart);
+        assertNotNull(cart, "Cart creation failed");
+
+        product = ProductFactory.buildProduct("jalapino", "red hot jalapeno", 50, "https://media.istockphoto.com/id/174655938/photo/rose-background.webp?s=1024x1024&w=is&k=20&c=pGDOZrqVKxiYK46Ts9bcGwmhXVFPpGaJ3NI4F_kUVgE=", 5, "Plant");
+        product = productService.create(product);
+        assertNotNull(product, "Product creation failed");
+
+        cartProduct = CartProductFactory.buildCartProduct(cart, product, 2, 100.0);
     }
 
     @Test
     @Order(1)
     void create() {
-        Customer createCustomer = customerService.create(customer);
-        assertNotNull(createCustomer);
-        System.out.println(createCustomer);
-        //cart = CartFactory.buildCart(createCustomer);
-        Cart newCart = cartService.create(cart);
-        assertNotNull(newCart);
-        System.out.println(newCart);
-        Product createProduct = productService.create(product);
-        assertNotNull(createProduct);
-        System.out.println(createProduct);
-        //cartProduct = CartProductFactory.buildCartProduct(1, cart, createProduct, 5, 50);
-        CartProduct createCartProduct = cartProductService.create(cartProduct);
-        assertNotNull(createCartProduct);
-        System.out.println(createCartProduct);
+        CartProduct createdCartProduct = cartProductService.create(cartProduct);
+        assertNotNull(createdCartProduct, "Failed to create CartProduct");
+        assertEquals(cart, createdCartProduct.getCart());
+        assertEquals(product, createdCartProduct.getProduct());
+        assertEquals(200.0, createdCartProduct.getTotalPrice(), "Total price should be 200.0");
+        System.out.println("Created CartProduct: " + createdCartProduct);
     }
 
     @Test
     @Order(2)
     void read() {
-        CartProduct findCartProduct = cartProductService.read(cartProduct.getCartProductId());
-        assertNotNull(findCartProduct);
-        System.out.println(cartProduct);
+        CartProduct createdCartProduct = cartProductService.create(cartProduct);
+        CartProduct foundCartProduct = cartProductService.read(createdCartProduct.getCartProductId());
+        assertNotNull(foundCartProduct, "CartProduct should be found");
+        assertEquals(createdCartProduct.getCartProductId(), foundCartProduct.getCartProductId());
+        assertEquals(createdCartProduct.getCart(), foundCartProduct.getCart());
+        assertEquals(200.0, foundCartProduct.getTotalPrice(), "Total price should be 200.0");
+        System.out.println("Read CartProduct: " + foundCartProduct);
     }
 
     @Test
     @Order(3)
     void update() {
-        CartProduct newCartProduct = new CartProduct.Builder().copy(cartProduct).setQuantity(2).build();
-        assertNotNull(newCartProduct);
-        CartProduct updatedCartProduct = cartProductService.update(newCartProduct);
-        assertNotNull(updatedCartProduct);
-        System.out.println(updatedCartProduct);
-    }
+        CartProduct createdCartProduct = cartProductService.create(cartProduct);
+        assertNotNull(createdCartProduct, "Failed to create CartProduct");
 
-    @Test
-    @Order(5)
-    //@Disabled
-    void delete() {
-        boolean deleteCartProduct = cartProductService.delete(cartProduct.getCartProductId());
-        assertTrue(deleteCartProduct);
-        System.out.println(deleteCartProduct);
+        int newQuantity = 5;
+        double newTotalPrice = newQuantity * createdCartProduct.getUnitPrice();
+        CartProduct updatedCartProduct = new CartProduct.Builder()
+                .copy(createdCartProduct)
+                .setQuantity(newQuantity)
+                .setTotalPrice(newTotalPrice)
+                .build();
+
+        CartProduct result = cartProductService.update(updatedCartProduct);
+        assertNotNull(result, "Failed to update CartProduct");
+        assertEquals(newQuantity, result.getQuantity(), "CartProduct quantity should be updated");
+        assertEquals(newTotalPrice, result.getTotalPrice(), "Total price should be updated");
+
+        CartProduct updatedCartProductFromDB = cartProductService.read(createdCartProduct.getCartProductId());
+        assertEquals(newQuantity, updatedCartProductFromDB.getQuantity(), "CartProduct quantity should be updated in the DB");
+        assertEquals(newTotalPrice, updatedCartProductFromDB.getTotalPrice(), "Total price should be updated in the DB");
+        assertEquals(createdCartProduct.getCartProductId(), updatedCartProductFromDB.getCartProductId(), "CartProduct ID should not change on update");
+
+        System.out.println("Updated CartProduct: " + result);
     }
 
     @Test
     @Order(4)
     void getAll() {
-        System.out.println(cartProductService.getAll());
+        // Clear existing CartProducts
+        List<CartProduct> existingCartProducts = cartProductService.getAll();
+        System.out.println("Existing CartProducts before test: " + existingCartProducts);
+
+        for (CartProduct existingCartProduct : existingCartProducts) {
+            boolean deleted = cartProductService.delete(existingCartProduct.getCartProductId());
+            System.out.println("Deleted CartProduct ID: " + existingCartProduct.getCartProductId() + ", success: " + deleted);
+        }
+
+        // Create new CartProducts
+        CartProduct createdCartProduct = cartProductService.create(cartProduct);
+        assertNotNull(createdCartProduct, "Failed to create CartProduct");
+
+        CartProduct cartProduct2 = CartProductFactory.buildCartProduct(cart, product, 3, 150.0);
+        CartProduct createdCartProduct2 = cartProductService.create(cartProduct2);
+
+        List<CartProduct> allCartProducts = cartProductService.getAll();
+        System.out.println("All CartProducts after creation: " + allCartProducts);
+
+        assertFalse(allCartProducts.isEmpty(), "CartProduct list should not be empty");
+        assertEquals(2, allCartProducts.size(), "CartProduct list should contain 2 CartProducts");
+        assertTrue(allCartProducts.stream().anyMatch(cp -> cp.getCartProductId() == createdCartProduct.getCartProductId()),
+                "CartProduct list should contain the first created CartProduct");
+        assertTrue(allCartProducts.stream().anyMatch(cp -> cp.getCartProductId() == createdCartProduct2.getCartProductId()),
+                "CartProduct list should contain the second created CartProduct");
+    }
+
+    @Test
+    @Order(5)
+    void delete() {
+        CartProduct createdCartProduct = cartProductService.create(cartProduct);
+        assertNotNull(createdCartProduct, "Failed to create CartProduct");
+
+        boolean deleted = cartProductService.delete(createdCartProduct.getCartProductId());
+        assertTrue(deleted, "Failed to delete CartProduct");
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            cartProductService.read(createdCartProduct.getCartProductId());
+        });
+        assertEquals("CartProduct with ID " + createdCartProduct.getCartProductId() + " does not exist", exception.getMessage());
+
+        List<CartProduct> allCartProducts = cartProductService.getAll();
+        assertTrue(allCartProducts.stream().noneMatch(cp -> cp.getCartProductId() == createdCartProduct.getCartProductId()),
+                "Deleted CartProduct should not be present in getAll() result");
+
+        System.out.println("Deleted CartProduct with ID: " + createdCartProduct.getCartProductId());
     }
 }

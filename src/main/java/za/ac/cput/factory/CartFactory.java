@@ -8,13 +8,14 @@ import java.time.LocalDate;
 
 public class CartFactory {
 
-    public static Cart buildCart(Customer customer){ //long cartId,
-        if (customer == null){ //CartHelper.validId(cartId) ||
+    public static Cart buildCart(Customer customer) {
+        if (customer == null) {
             return null;
         }
 
-        return new Cart.Builder().setDateCreated(LocalDate.now()).setCustomer(customer).build();
-
+        return new Cart.Builder()
+                .setDateCreated(LocalDate.now())
+                .setCustomer(customer)
+                .build();
     }
-
 }
