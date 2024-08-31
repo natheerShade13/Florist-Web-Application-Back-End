@@ -9,14 +9,14 @@ import java.time.LocalDate;
 
 public class OrdersFactory {
 
-    public static Orders buildOrder(long ordersId, double amount, LocalDate orderDate, String status
+    public static Orders buildOrder(double amount, LocalDate orderDate, String status
             , Customer customer, Coupon coupon){
-        if (OrdersHelper.validId(ordersId) || OrdersHelper.isNegative(amount) || OrdersHelper.isNull(orderDate)
+        if (OrdersHelper.isNegative(amount) || OrdersHelper.isNull(orderDate)
                 || OrdersHelper.isNullOrEmpty(status) || customer == null /*|| coupon == null */){
             return null;
         }
 
-        return new Orders.Builder().setOrderId(ordersId).setAmount(amount).setOrderDate(orderDate)
+        return new Orders.Builder().setAmount(amount).setOrderDate(orderDate)
                 .setStatus(status).setCustomer(customer).setCoupon(coupon).build();
     }
 

@@ -1,5 +1,6 @@
 package za.ac.cput.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -8,10 +9,11 @@ import java.util.Objects;
 public class OrderLine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long orderLineId;
     @ManyToOne
     @JoinColumn(name = "ORDER_ID")
+    @JsonBackReference
     private Orders orders;
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")

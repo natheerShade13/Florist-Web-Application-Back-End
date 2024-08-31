@@ -1,5 +1,6 @@
 package za.ac.cput.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ import java.util.Objects;
 public class Orders {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long orderId;
     private double amount;
     private LocalDate orderDate;
@@ -22,6 +23,7 @@ public class Orders {
     @JoinColumn(name = "COUPON_ID", nullable = true)
     private Coupon coupon;
     @OneToMany(mappedBy = "orders")
+    @JsonManagedReference
     private List<OrderLine> orderLines;
     @OneToMany(mappedBy = "orders")
     private List<Payment> payments;
@@ -59,6 +61,45 @@ public class Orders {
 
     public Coupon getCoupon() {
         return coupon;
+    }
+
+    public List<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
+    public Orders setOrderId(long orderId) {
+        this.orderId = orderId;
+        return this;
+    }
+
+    public Orders setAmount(double amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public Orders setOrderDate(LocalDate orderDate) {
+        this.orderDate = orderDate;
+        return this;
+    }
+
+    public Orders setStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
+    public Orders setCustomer(Customer customer) {
+        this.customer = customer;
+        return this;
+    }
+
+    public Orders setCoupon(Coupon coupon) {
+        this.coupon = coupon;
+        return this;
+    }
+
+    public Orders setOrderLines(List<OrderLine> orderLines) {
+        this.orderLines = orderLines;
+        return this;
     }
 
     @Override
