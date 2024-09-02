@@ -87,6 +87,41 @@ public class Product implements Serializable {
         return category;
     }
 
+    public Product setProductId(long productId) {
+        this.productId = productId;
+        return this;
+    }
+
+    public Product setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Product setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Product setPrice(double price) {
+        this.price = price;
+        return this;
+    }
+
+    public Product setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public Product setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+        return this;
+    }
+
+    public Product setCategory(String category) {
+        this.category = category;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

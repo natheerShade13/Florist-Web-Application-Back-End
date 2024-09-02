@@ -6,13 +6,9 @@ import za.ac.cput.domain.*;
 import za.ac.cput.repository.CartProductRepository;
 import za.ac.cput.repository.CartRepository;
 import za.ac.cput.service.CartProductService;
-import za.ac.cput.service.CustomerService;
 import za.ac.cput.service.ProductService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerCart {

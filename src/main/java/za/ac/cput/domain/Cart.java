@@ -15,7 +15,7 @@ public class Cart implements Serializable {
     private long cartId;
     private LocalDate dateCreated;
     @OneToOne() //cascade = CascadeType.ALL
-    @JoinColumn(name = "CUS_ID")
+    @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
     @OneToMany(mappedBy = "cart") //cascade = CascadeType.ALL
     private List<CartProduct> cartProducts;

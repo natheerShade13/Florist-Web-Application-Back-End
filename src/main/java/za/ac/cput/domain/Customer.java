@@ -11,10 +11,8 @@ import java.util.Objects;
 //What should the relationship be between Orders and Coupon be?;
 //Should supplier be a company name or individual name and surname, is an address needed as well???;
 //Check all entity attributes;
-//What does cascading do?;
 //Should Customer or Cart have the OneToOne mapping?;
 //Should Product have the foreign key instead of review?;
-//Remove Embedded Contact?;
 //Coupon needs a boolean variable called isUsed;
 
 @Entity
@@ -33,10 +31,7 @@ public class Customer implements Serializable {
     @Column(nullable = false)
     private String password;
     private String mobileNumber;
-    //@Column(nullable = false)
     private LocalDate dateOfBirth;
-    //@Embedded
-    //private Contact contact;
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses;
     @OneToMany(mappedBy = "customer")

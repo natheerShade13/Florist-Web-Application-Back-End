@@ -12,7 +12,7 @@ public class WishlistProduct implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long wishlistProductId;
     @ManyToOne
-    @JoinColumn(name = "WISH_LIST_ID")
+    @JoinColumn(name = "WISHLIST_ID")
     private Wishlist wishlist;
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")

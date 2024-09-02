@@ -11,12 +11,16 @@ public class Address implements Serializable {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long addressId;
+    @Column(nullable = false)
     private String streetNumber;
+    @Column(nullable = false)
     private String streetName;
+    @Column(nullable = false)
     private String suburb;
+    @Column(nullable = false)
     private String city;
+    @Column(nullable = false)
     private String postalCode;
-    //@Id
     @ManyToOne
     @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;

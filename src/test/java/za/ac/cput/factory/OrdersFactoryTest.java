@@ -25,7 +25,7 @@ class OrdersFactoryTest {
                 , LocalDate.of(2000, Month.JANUARY, 1));
         coupon = CouponFactory.buildCoupon(1, "1234", 200
                 , LocalDate.of(2025, Month.APRIL, 25), 400);
-        ordersA = OrdersFactory.buildOrder(1, 250
+        ordersA = OrdersFactory.buildOrder(250
                 , LocalDate.of(2024, Month.FEBRUARY, 25), "On route", customer, coupon);
         assertNotNull(ordersA);
         System.out.println(ordersA);
@@ -38,7 +38,7 @@ class OrdersFactoryTest {
                 , LocalDate.of(2000, Month.JANUARY, 1));
         coupon = CouponFactory.buildCoupon(1, "1234", 200
                 , LocalDate.of(2025, Month.APRIL, 25), 400);
-        ordersB = OrdersFactory.buildOrder(1, 500
+        ordersB = OrdersFactory.buildOrder(500
                 , LocalDate.of(2024, Month.FEBRUARY, 25), "", customer, coupon);
         assertNotNull(ordersB);
         System.out.println(ordersB);

@@ -8,7 +8,6 @@ import za.ac.cput.repository.CustomerRepository;
 import java.util.List;
 import java.util.Optional;
 
-//Create API for calculating the (orders amount - coupon discount); Done
 //When using create, check for certain conditions like an email that already exists;
 //Delete method might need changing and getAll() might need to return a set;
 
@@ -86,6 +85,10 @@ public class CustomerService implements IService<Customer, Long>{
 
     public Customer getCustomer(String email){
         return customerRepository.findByEmail(email);
+    }
+
+    public Customer getCustomerByMobileNumber(String mobileNumber){
+        return customerRepository.findByMobileNumber(mobileNumber);
     }
 
     public boolean verifyLogin(String email, String password){
