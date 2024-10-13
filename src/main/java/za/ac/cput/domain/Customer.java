@@ -58,6 +58,7 @@ public class Customer implements Serializable, UserDetails {
         this.password = builder.password;
         this.mobileNumber = builder.mobileNumber;
         this.dateOfBirth = builder.dateOfBirth;
+        this.role = builder.role;
     }
 
     public long getCustomerId() {
@@ -81,6 +82,14 @@ public class Customer implements Serializable, UserDetails {
     public String getEmail() {return email;}
 
     public String getMobileNumber() {return mobileNumber;}
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -146,6 +155,7 @@ public class Customer implements Serializable, UserDetails {
         private String password;
         private String mobileNumber;
         private LocalDate dateOfBirth;
+        private Role role;
 
         public Builder setCustomerId(long customerId) {
             this.customerId = customerId;
@@ -179,6 +189,11 @@ public class Customer implements Serializable, UserDetails {
 
         public Builder setMobileNumber(String mobileNumber) {
             this.mobileNumber = mobileNumber;
+            return this;
+        }
+
+        public Builder setRole(Role role) {
+            this.role = role;
             return this;
         }
 

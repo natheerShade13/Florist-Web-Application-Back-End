@@ -29,6 +29,7 @@ public class CustomerRegistration {
 
     @Transactional
     public Customer registerCustomer(Customer customer) {
+        customer.setRole(Role.USER);
         Customer customerNew = customerService.create(customer);
         Cart cart = CartFactory.buildCart(customerNew);
         Cart cartTest = cartService.create(cart);
