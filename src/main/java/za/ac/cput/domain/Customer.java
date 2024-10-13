@@ -1,9 +1,13 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,8 +19,9 @@ import java.util.Objects;
 //Should Product have the foreign key instead of review?;
 //Coupon needs a boolean variable called isUsed;
 
+
 @Entity
-public class Customer implements Serializable {
+public class Customer implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +37,8 @@ public class Customer implements Serializable {
     private String password;
     private String mobileNumber;
     private LocalDate dateOfBirth;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses;
     @OneToMany(mappedBy = "customer")
@@ -74,6 +81,36 @@ public class Customer implements Serializable {
     public String getEmail() {return email;}
 
     public String getMobileNumber() {return mobileNumber;}
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.Customer;
+import za.ac.cput.domain.Role;
 import za.ac.cput.domain.Wishlist;
 import za.ac.cput.factory.CartFactory;
 import za.ac.cput.factory.WishlistFactory;
