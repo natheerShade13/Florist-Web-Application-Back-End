@@ -1,4 +1,4 @@
-package za.ac.cput.security;
+package za.ac.cput.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import za.ac.cput.security.jwt.JWTAuthenticationFilter;
 
 @RequiredArgsConstructor
 @Configuration
@@ -31,7 +32,8 @@ public class SecurityConfig {
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) ->
                         requests.requestMatchers(HttpMethod.GET, "/customer/login/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/customer/all").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/customer/register").permitAll()
                                 .anyRequest().authenticated()
                 ).authenticationProvider(authenticationProvider)

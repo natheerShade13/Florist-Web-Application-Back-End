@@ -1,4 +1,4 @@
-package za.ac.cput.config;
+package za.ac.cput.security.config;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

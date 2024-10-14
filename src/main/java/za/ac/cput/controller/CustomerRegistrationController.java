@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import za.ac.cput.api.CustomerRegistration;
 import za.ac.cput.domain.Customer;
+import za.ac.cput.dto.UserDto;
 
 @RestController
 @RequestMapping(path = "/customer")
@@ -22,9 +23,17 @@ public class CustomerRegistrationController {
     }
 
     @PostMapping(path = "/register")
-    public ResponseEntity<Customer> customerRegistration(@RequestBody Customer customer) {
-        Customer newCustomer = customerRegistration.registerCustomer(customer);
-        return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
+    public ResponseEntity<Customer> customerRegistration(@RequestBody UserDto userDto) {
+        try {
+            Customer newCustomer = customerRegistration.registerCustomer(userDto);
+            return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
+        } catch (IllegalStateException e) {
+            // Return a specific error message from the exception
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            // For any other unexpected exceptions, return a generic error message
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
