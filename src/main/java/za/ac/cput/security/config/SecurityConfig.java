@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) ->
                         requests.requestMatchers(HttpMethod.GET, "/customer/login/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/customer/all").hasAuthority("USER")
-                                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                                //.requestMatchers("/products/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/customer/register").permitAll()
                                 .anyRequest().authenticated()
                 ).authenticationProvider(authenticationProvider)

@@ -8,7 +8,7 @@ import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.Customer;
 import za.ac.cput.domain.Role;
 import za.ac.cput.domain.Wishlist;
-import za.ac.cput.dto.UserDto;
+import za.ac.cput.dto.CustomerDto;
 import za.ac.cput.factory.CartFactory;
 import za.ac.cput.factory.WishlistFactory;
 import za.ac.cput.service.CartService;
@@ -32,14 +32,13 @@ public class CustomerRegistration {
     }
 
     @Transactional
-    public Customer registerCustomer(UserDto userDto) {
+    public Customer registerCustomer(CustomerDto customerDto) {
 
         Customer customer = new Customer.Builder()
-                .setFirstName(userDto.getFirstName())
-                .setLastName(userDto.getLastName())
-                .setEmail(userDto.getEmail())
-                //.setPassword(userDto.getPassword())
-                .setPassword(passwordEncoder.encode(userDto.getPassword()))
+                .setFirstName(customerDto.getFirstName())
+                .setLastName(customerDto.getLastName())
+                .setEmail(customerDto.getEmail())
+                .setPassword(passwordEncoder.encode(customerDto.getPassword()))
                 .setRole(Role.USER)
                 .build();
 

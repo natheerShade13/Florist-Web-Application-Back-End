@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import za.ac.cput.dto.AuthenticationRequestDto;
-import za.ac.cput.dto.AuthenticationResponseDto;
+import za.ac.cput.dto.UserDto;
 import za.ac.cput.security.repository.UserRepository;
 import za.ac.cput.security.jwt.JWTService;
 
@@ -15,15 +14,21 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final JWTService jwtService;
-    private  final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponseDto authenticate(AuthenticationRequestDto authenticationRequestDto) {
+    public UserDto authenticate(String email, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authenticationRequestDto.getEmail(),
-                authenticationRequestDto.getPassword()));
-        var user = userRepository.findByEmail(authenticationRequestDto.getEmail()).orElseThrow();
+                email, password));
+        var user = userRepository.findByEmail(email).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponseDto.builder()
+        return UserDto.builder()
+                .customerId(user.getCustomerId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .mobileNumber(user.getMobileNumber())
+                .dateOfBirth(user.getDateOfBirth())
                 .token(jwtToken)
                 .build();
     }

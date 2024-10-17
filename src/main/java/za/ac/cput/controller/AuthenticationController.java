@@ -4,9 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import za.ac.cput.dto.AuthenticationRequestDto;
-import za.ac.cput.dto.AuthenticationResponseDto;
-import za.ac.cput.security.service.AuthenticationService;
 import za.ac.cput.service.AdminService;
 import za.ac.cput.service.CustomerService;
 import org.slf4j.Logger;
@@ -17,7 +14,6 @@ import org.slf4j.LoggerFactory;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService authenticationService;
     private final AdminService adminService;
     private final CustomerService customerService;
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
@@ -41,10 +37,4 @@ public class AuthenticationController {
             return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
         }
     }
-
-    @PostMapping("/login/auth")
-    public ResponseEntity<AuthenticationResponseDto> auth(@RequestBody AuthenticationRequestDto authenticationRequestDto) {
-        return ResponseEntity.ok(authenticationService.authenticate(authenticationRequestDto));
-    }
-
 }

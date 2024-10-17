@@ -5,6 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Customer;
+import za.ac.cput.domain.Role;
+import za.ac.cput.dto.CustomerDto;
+import za.ac.cput.dto.UserDto;
+import za.ac.cput.mapper.UserMapper;
+import za.ac.cput.security.service.AuthenticationService;
 import za.ac.cput.service.CustomerService;
 
 import java.util.List;
@@ -16,16 +21,23 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, AuthenticationService authenticationService) {
         this.customerService = customerService;
+        this.authenticationService = authenticationService;
     }
 
     @GetMapping("/login/{email}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable String email){
+    public ResponseEntity<CustomerDto> getCustomer(@PathVariable String email){
         Customer customer = customerService.getCustomer(email);
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        if (customer == null) {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } else {
+            CustomerDto customerDto = UserMapper.mapOut(customer);
+            return new ResponseEntity<>(customerDto, HttpStatus.OK);
+        }
     }
 
     @GetMapping("/update/{mobileNumber}")
@@ -35,10 +47,9 @@ public class CustomerController {
     }
 
     @GetMapping("/login/{email}/{password}")
-    public ResponseEntity<Boolean> login(@PathVariable String email,
-                                          @PathVariable String password){
-        boolean verifyLogin = customerService.verifyLogin(email, password);
-        return new ResponseEntity<>(verifyLogin, HttpStatus.OK);
+    public ResponseEntity<UserDto> authenticate(@PathVariable String email,
+                                                @PathVariable String password){
+        return new ResponseEntity<>(authenticationService.authenticate(email, password), HttpStatus.OK);
     }
 
     @GetMapping("/all")
@@ -49,6 +60,7 @@ public class CustomerController {
 
     @PutMapping("/update")
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer){
+        customer.setRole(Role.USER);
         Customer updateCustomer = customerService.update(customer);
         return new ResponseEntity<>(updateCustomer, HttpStatus.OK);
     }
