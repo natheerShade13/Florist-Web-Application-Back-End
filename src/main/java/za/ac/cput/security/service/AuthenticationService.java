@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Role;
 import za.ac.cput.dto.UserDto;
 import za.ac.cput.repository.CustomerRepository;
-import za.ac.cput.security.repository.UserRepository;
 import za.ac.cput.security.jwt.JWTService;
 
 @Service
