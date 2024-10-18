@@ -84,7 +84,7 @@ public class CustomerService implements IService<Customer, Long>{
     }
 
     public Customer getCustomer(String email){
-        return customerRepository.findByEmail(email);
+        return customerRepository.findByEmail(email).orElse(null);
     }
 
     public Customer getCustomerByMobileNumber(String mobileNumber){

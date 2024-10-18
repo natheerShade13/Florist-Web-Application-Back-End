@@ -14,7 +14,6 @@ import za.ac.cput.security.jwt.JWTService;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final UserRepository userRepository;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
     private final CustomerRepository customerRepository;
@@ -22,7 +21,7 @@ public class AuthenticationService {
     public UserDto authenticate(String email, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 email, password));
-        var user = userRepository.findByEmail(email).orElseThrow();
+        var user = customerRepository.findByEmail(email).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return UserDto.builder()
                 .customerId(user.getCustomerId())
