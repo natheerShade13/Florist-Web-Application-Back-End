@@ -32,8 +32,11 @@ public class SecurityConfig {
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) ->
                         requests.requestMatchers(HttpMethod.GET, "/customer/login/**").permitAll()
-                                //.requestMatchers(HttpMethod.GET, "/products/getAll").hasAuthority("USER")
                                 .requestMatchers(HttpMethod.POST, "/customer/register").permitAll()
+                                //.requestMatchers(HttpMethod.GET, "/products/getAll").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.POST, "/products/create").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/products/update").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/products/delete").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
                 ).authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

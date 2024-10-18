@@ -3,29 +3,33 @@ package za.ac.cput.security.config;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import za.ac.cput.domain.Admin;
-import za.ac.cput.service.AdminService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import za.ac.cput.domain.Customer;
+import za.ac.cput.domain.Role;
+import za.ac.cput.service.CustomerService;
 
 @Configuration
 public class AppConfig {
 
-    private final AdminService adminService;
+    private final PasswordEncoder passwordEncoder;
 
-    public AppConfig(AdminService adminService) {
-        this.adminService = adminService;
+    public AppConfig(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Bean
-    public CommandLineRunner initDefaultAdmin() {
+    public CommandLineRunner initDefaultAdmin(CustomerService customerService) {
         return args -> {
             // Check if the default admin exists
-            if (adminService.getAdminByEmail("admin@florist.com").isEmpty()) {
-                Admin defaultAdmin = new Admin.Builder()
+            if (customerService.getCustomer("admin@florist.com") == null) {
+                Customer customer = new Customer.Builder()
+                        .setFirstName("admin")
+                        .setLastName("admin")
                         .setEmail("admin@florist.com")
-                        .setPassword("admin") //I need to hash this password
-                        .setRole("ADMIN")
+                        .setPassword(passwordEncoder.encode("admin"))
+                        .setRole(Role.ADMIN)
                         .build();
-                adminService.create(defaultAdmin);
+                customerService.create(customer);
             }
         };
     }
