@@ -55,6 +55,12 @@ public class CustomerController {
         return new ResponseEntity<>(authenticationService.authenticate(email, password), HttpStatus.OK);
     }
 
+    @GetMapping("/login/admin/{email}/{password}")
+    public ResponseEntity<UserDto> authenticateAdmin(@PathVariable String email,
+                                                @PathVariable String password) {
+        return new ResponseEntity<>(authenticationService.authenticateAdmin(email, password), HttpStatus.OK);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<Customer>> getAll() {
         List<Customer> customerList = customerService.getAll();
