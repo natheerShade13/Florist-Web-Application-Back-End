@@ -3,6 +3,7 @@ package za.ac.cput.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import java.util.Objects;
 //Should Product have the foreign key instead of review?;
 //Coupon needs a boolean variable called isUsed;
 
+@Setter
 @Entity
 public class Customer implements Serializable, UserDetails {
 

@@ -32,8 +32,7 @@ public class SecurityConfig {
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) ->
                         requests.requestMatchers(HttpMethod.GET, "/customer/login/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/customer/all").hasAuthority("USER")
-                                //.requestMatchers("/products/**").permitAll()
+                                //.requestMatchers(HttpMethod.GET, "/products/getAll").hasAuthority("USER")
                                 .requestMatchers(HttpMethod.POST, "/customer/register").permitAll()
                                 .anyRequest().authenticated()
                 ).authenticationProvider(authenticationProvider)
