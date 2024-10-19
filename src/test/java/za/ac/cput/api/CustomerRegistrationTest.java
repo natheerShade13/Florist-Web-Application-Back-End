@@ -4,10 +4,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Customer;
-import za.ac.cput.factory.CustomerFactory;
-
-import java.time.LocalDate;
-import java.time.Month;
+import za.ac.cput.dto.CustomerDto;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,20 +15,23 @@ class CustomerRegistrationTest {
     @Autowired
     private CustomerRegistration customerRegistration;
 
-    private static Customer customer;
+    private static CustomerDto user;
 
     @Test
     @Order(0)
     void setUp() {
-        customer = CustomerFactory.buildCustomer("Jake", "Long"
-                , "jake.long@gmail.com", "jakeLong", "0677784626"
-                , LocalDate.of(2000, Month.JANUARY, 1));
+        user = CustomerDto.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john@doe.com")
+                .password("password")
+                .build();
     }
 
     @Test
     @Order(1)
     void registerCustomer() {
-        Customer registerCustomer = customerRegistration.registerCustomer(customer);
+        Customer registerCustomer = customerRegistration.registerCustomer(user);
         assertNotNull(registerCustomer);
         System.out.println(registerCustomer);
     }

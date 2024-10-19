@@ -1,9 +1,16 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,8 +22,9 @@ import java.util.Objects;
 //Should Product have the foreign key instead of review?;
 //Coupon needs a boolean variable called isUsed;
 
+@Setter
 @Entity
-public class Customer implements Serializable {
+public class Customer implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +40,8 @@ public class Customer implements Serializable {
     private String password;
     private String mobileNumber;
     private LocalDate dateOfBirth;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses;
     @OneToMany(mappedBy = "customer")
@@ -51,6 +61,7 @@ public class Customer implements Serializable {
         this.password = builder.password;
         this.mobileNumber = builder.mobileNumber;
         this.dateOfBirth = builder.dateOfBirth;
+        this.role = builder.role;
     }
 
     public long getCustomerId() {
@@ -74,6 +85,44 @@ public class Customer implements Serializable {
     public String getEmail() {return email;}
 
     public String getMobileNumber() {return mobileNumber;}
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -109,6 +158,7 @@ public class Customer implements Serializable {
         private String password;
         private String mobileNumber;
         private LocalDate dateOfBirth;
+        private Role role;
 
         public Builder setCustomerId(long customerId) {
             this.customerId = customerId;
@@ -142,6 +192,11 @@ public class Customer implements Serializable {
 
         public Builder setMobileNumber(String mobileNumber) {
             this.mobileNumber = mobileNumber;
+            return this;
+        }
+
+        public Builder setRole(Role role) {
+            this.role = role;
             return this;
         }
 

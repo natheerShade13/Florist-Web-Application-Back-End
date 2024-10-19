@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import za.ac.cput.api.OrdersCheckout;
 import za.ac.cput.domain.Customer;
 import za.ac.cput.domain.Orders;
-import za.ac.cput.repository.OrdersRepository;
+import za.ac.cput.domain.Role;
 import za.ac.cput.service.CustomerService;
-import za.ac.cput.service.OrdersService;
 
 import java.util.List;
 
@@ -28,6 +27,7 @@ public class OrdersCheckoutController {
 
     @PostMapping("/add")
     public ResponseEntity<Orders> checkout(@RequestBody Customer customer) {
+        customer.setRole(Role.USER);
         Orders order = ordersCheckout.checkout(customer);
         try {
             return new ResponseEntity<>(order, HttpStatus.CREATED);

@@ -1,6 +1,6 @@
 package za.ac.cput.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,17 +11,12 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AdminService adminService;
     private final CustomerService customerService;
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
-
-    @Autowired
-    public AuthenticationController(AdminService adminService, CustomerService customerService) {
-        this.adminService = adminService;
-        this.customerService = customerService;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
